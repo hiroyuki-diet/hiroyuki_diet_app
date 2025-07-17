@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'dart:developer';
 import 'package:flutter/services.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
+// import 'package:ferry/ferry.dart';
+// import 'package:ferry_flutter/ferry_flutter.dart';
+// import '../graphql_api.dart'; // 生成されるFerryのコード
 
 class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
@@ -13,16 +16,10 @@ class _SignupPageState extends State<SignupPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  static const String signUpMutationString = r'''
-    mutation SignUp($email: String!, $password: String!) {
-      signUp(email: $email, password: $password) {
-        id
-      }
-    }
-  ''';
-
   @override
   Widget build(BuildContext context) {
+    // final client = ClientProvider.of(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('サインアップ'),
@@ -51,35 +48,37 @@ class _SignupPageState extends State<SignupPage> {
               ),
             ),
             const SizedBox(height: 32.0),
-            Mutation(
-              options: MutationOptions(
-                document: gql(signUpMutationString),
-                onCompleted: (dynamic resultData) {
-                  if (resultData != null) {
-                    // サインアップ成功後、ログインページに戻る
-                    Navigator.of(context).pop();
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('サインアップに成功しました。ログインしてください。')),
-                    );
-                  }
-                },
-                onError: (error) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('サインアップに失敗しました: $error')),
-                  );
-                },
-              ),
-              builder: (RunMutation runMutation, QueryResult? result) {
-                return ElevatedButton(
-                  onPressed: () {
-                    runMutation({
-                      'email': _emailController.text,
-                      'password': _passwordController.text,
-                    });
-                  },
-                  child: const Text('サインアップ'),
+            ElevatedButton(
+              onPressed: () async {
+                // final request = GSignUpReq((b) => b
+                //   ..vars.input.email = _emailController.text
+                //   ..vars.input.password = _passwordController.text);
+
+                // final response = await client.request(request).first;
+
+                // if (response.hasErrors) {
+                //   log('Signup Error: ${response.graphqlErrors.toString()}');
+                //   ScaffoldMessenger.of(context).showSnackBar(
+                //     SnackBar(content: Text('サインアップに失敗しました: ${response.graphqlErrors.toString()}')),
+                //   );
+                // } else if (response.data != null && response.data!.signUp != null) {
+                //   // サインアップ成功後、ログインページに戻る
+                //   Navigator.of(context).pop();
+                //   ScaffoldMessenger.of(context).showSnackBar(
+                //     const SnackBar(content: Text('サインアップに成功しました。ログインしてください。')),
+                //   );
+                // } else {
+                //   log('Signup failed: No data or signUp is null.');
+                //   ScaffoldMessenger.of(context).showSnackBar(
+                //     const SnackBar(content: Text('サインアップに失敗しました。')),
+                //   );
+                // }
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('サインアップ機能は一時的に無効化されています。')),
                 );
+                Navigator.of(context).pop();
               },
+              child: const Text('サインアップ'),
             ),
           ],
         ),

@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+// import 'package:ferry_flutter/ferry_flutter.dart';
+import '../providers/user_data_provider.dart';
 import 'momentum_page.dart';
 import 'meal_page.dart';
 import 'home_page.dart';
 
-class HomeWithTabs extends StatelessWidget {
+class HomeWithTabs extends ConsumerWidget {
   const HomeWithTabs({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userData = ref.watch(userDataProvider);
+
     return DefaultTabController(
       length: 3,
       initialIndex: 1, // Set 'ホーム' as the default tab
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          backgroundColor: Colors.green,
+          backgroundColor: const Color.fromARGB(255, 56, 180, 139),
           toolbarHeight: 70, // Adjusted height to fit content and TabBar
           title: Padding(
             padding: const EdgeInsets.only(top: 10.0, left: 16.0, right: 16.0), // Top and horizontal padding
@@ -24,7 +29,7 @@ class HomeWithTabs extends StatelessWidget {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    // Level/XP display (Donut + Icon + Lv.X text)
+                    // Level/XP display (Donut + Lv.X text)
                     Column(
                       children: [
                         Stack(
@@ -40,44 +45,22 @@ class HomeWithTabs extends StatelessWidget {
                                 valueColor: const AlwaysStoppedAnimation<Color>(Colors.yellow), // Progress color
                               ),
                             ),
-                            const Icon(Icons.person, color: Colors.white, size: 30), // Placeholder icon
+                            Text(
+                              'Lv.${userData?.level ?? '--'}', // Placeholder level
+                              style: TextStyle(color: Colors.white, fontSize: 14),
+                            ),
                           ],
-                        ),
-                        const Text(
-                          'Lv.10', // Placeholder level
-                          style: TextStyle(color: Colors.white, fontSize: 14),
                         ),
                       ],
                     ),
                     const SizedBox(width: 15), // Space between level and username
                     // Username
-                    const Expanded(
+                    Expanded(
                       child: Text(
-                        'ユーザーネーム', // Placeholder username
+                        userData?.userName ?? 'ユーザーネーム', // Placeholder username
                         style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
                         overflow: TextOverflow.ellipsis, // Handle long usernames
                       ),
-                    ),
-                    const SizedBox(width: 15), // Space between username and coins/tickets
-                    // Coins and Tickets (aligned to left within their column)
-                    const Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Icon(Icons.monetization_on, color: Colors.yellow, size: 20),
-                            SizedBox(width: 5),
-                            Text('1000', style: TextStyle(color: Colors.white, fontSize: 16)), // Placeholder coins
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Icon(Icons.airplane_ticket, color: Colors.orange, size: 20),
-                            SizedBox(width: 5),
-                            Text('5', style: TextStyle(color: Colors.white, fontSize: 16)), // Placeholder tickets
-                          ],
-                        ),
-                      ],
                     ),
                   ],
                 ),

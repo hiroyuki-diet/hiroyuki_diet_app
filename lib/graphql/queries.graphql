@@ -1,0 +1,109 @@
+# ----------------------------------------
+# Fragments
+#
+# 複数のクエリやミューテーションで再利用したい
+# フィールドの組み合わせを定義します。
+# ----------------------------------------
+
+# プロフィール情報の共通部分
+fragment UserProfileParts on Profile {
+  id
+  userName
+  age
+  gender
+  weight
+  height
+  targetWeight
+  targetDailyExerciseTime
+  targetDailyCarorie
+  isCreated
+}
+
+# 食材情報の共通部分
+fragment FoodParts on Food {
+  id
+  name
+  estimateCalorie
+}
+
+# 食事記録の共通部分
+fragment MealParts on Meal {
+  id
+  mealType
+  totalCalorie
+  foods {
+    # ネストしてフラグメントを使用
+    ...FoodParts
+  }
+}
+
+
+# ----------------------------------------
+# Queries
+#
+# サーバーからデータを取得するための操作です。
+# ----------------------------------------
+
+# ユーザーIDを指定して、プロフィールやレベルなどの基本情報を取得
+query GetUserData($userId: ID!) {
+  user(id: $userId) {
+    id
+    email
+    level
+    experiencePoInt
+    profile {
+      ...UserProfileParts # 定義したフラグメントを利用
+    }
+  }
+}
+
+# 登録されている全ての食材リストを取得
+query GetFoods {
+  foods {
+    ...FoodParts # 定義したフラグメントを利用
+  }
+}
+
+# ユーザーの食事記録一覧を取得
+query GetUserMeals($userId: ID!) {
+  user(id: $userId) {
+    meals {
+      ...MealParts # 定義したフラグメントを利用
+    }
+  }
+}
+
+
+# ----------------------------------------
+# Mutations
+#
+# サーバーのデータを変更（作成、更新、削除）するための操作です。
+# ----------------------------------------
+
+# メールアドレスとパスワードでサインアップ
+mutation SignUp($input: Auth!) {
+  signUp(input: $input)
+}
+
+# メールアドレスとパスワードでログイン
+mutation Login($input: Auth!) {
+  login(input: $input) {
+    userId
+    token
+  }
+}
+
+# ユーザーのプロフィールを新規作成
+mutation CreateProfile($input: InputProfile!) {
+  createProfile(input: $input)
+}
+
+# 新しい食事記録を作成
+mutation CreateMeal($input: InputMeal!) {
+  createMeal(input: $input)
+}
+
+# 食事記録を削除
+mutation DeleteMeal($mealId: ID!) {
+  deleteMeal(input: $mealId)
+}

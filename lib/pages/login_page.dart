@@ -1,36 +1,29 @@
 import 'package:flutter/material.dart';
+import 'dart:developer';
 import 'package:flutter/services.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+// import 'package:ferry/ferry.dart';
+// import 'package:ferry_flutter/ferry_flutter.dart';
+// import '../graphql_api.dart'; // 生成されるFerryのコード
+import '../providers/user_data_provider.dart';
 import 'home.dart';
 import 'signup_page.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  ConsumerState<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends ConsumerState<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  static const String loginMutationString = r'''
-    mutation Login($email: String!, $password: String!) {
-      login(email: $email, password: $password) {
-        id
-      }
-    }
-  ''';
-
-  void _navigateToSignUp() {
-    Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) => const SignupPage()),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
+    // final client = ClientProvider.of(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('ログイン'),
@@ -59,37 +52,48 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             const SizedBox(height: 32.0),
-            Mutation(
-              options: MutationOptions(
-                document: gql(loginMutationString),
-                onCompleted: (dynamic resultData) {
-                  if (resultData != null) {
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => const HomePage()),
-                    );
-                  }
-                },
-                onError: (error) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('ログインに失敗しました: $error')),
-                  );
-                },
-              ),
-              builder: (RunMutation runMutation, QueryResult? result) {
-                return ElevatedButton(
-                  onPressed: () {
-                    runMutation({
-                      'email': _emailController.text,
-                      'password': _passwordController.text,
-                    });
-                  },
-                  child: const Text('ログイン'),
+            ElevatedButton(
+              onPressed: () async {
+                // final request = GLoginReq((b) => b
+                //   ..vars.input.email = _emailController.text
+                //   ..vars.input.password = _passwordController.text);
+
+                // final response = await client.request(request).first;
+
+                // if (response.hasErrors) {
+                //   log('Login Error: ${response.graphqlErrors.toString()}');
+                //   ScaffoldMessenger.of(context).showSnackBar(
+                //     SnackBar(content: Text('ログインに失敗しました: ${response.graphqlErrors.toString()}')),
+                //   );
+                // } else if (response.data != null && response.data!.login != null) {
+                //   // ログイン成功後、ユーザーデータをフェッチ
+                //   await ref.read(userDataProvider.notifier).fetchUserData(client);
+
+                //   Navigator.of(context).pushReplacement(
+                //     MaterialPageRoute(builder: (context) => const HomePage()),
+                //   );
+                // } else {
+                //   log('Login failed: No data or login is null.');
+                //   ScaffoldMessenger.of(context).showSnackBar(
+                //     const SnackBar(content: Text('ログインに失敗しました。')),
+                //   );
+                // }
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('ログイン機能は一時的に無効化されています。')),
+                );
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => const HomePage()),
                 );
               },
+              child: const Text('ログイン'),
             ),
             const SizedBox(height: 16.0),
             TextButton(
-              onPressed: _navigateToSignUp,
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const SignupPage()),
+                );
+              },
               child: const Text('アカウントをお持ちでないですか？ サインアップ'),
             ),
           ],
