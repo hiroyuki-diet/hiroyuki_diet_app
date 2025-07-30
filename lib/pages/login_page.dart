@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'dart:developer';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:ferry/ferry.dart';
-// import 'package:ferry_flutter/ferry_flutter.dart';
-// import '../graphql_api.dart'; // 生成されるFerryのコード
-import '../providers/user_data_provider.dart';
+import 'dart:developer';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+import 'package:hiroyuki_diet_app/providers/client_provider.dart';
+import 'package:hiroyuki_diet_app/graphql/__generated__/queries.req.gql.dart';
 import 'home.dart';
 import 'signup_page.dart';
 
@@ -20,10 +20,63 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  Future<void> _login() async {
+    final client = ref.read(ferryClientProvider);
+    const storage = FlutterSecureStorage();
+
+    final request = GLoginReq((b) => b
+      ..vars.input.email = _emailController.text
+      ..vars.input.password = _passwordController.text);
+
+    try {
+      final response = await client.request(request).first;
+
+      if (response.hasErrors) {
+        print('Login Error: ${response.graphqlErrors}');
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('ログインに失敗しました: ${response.graphqlErrors}')),
+          );
+        }
+        return;
+      }
+
+      if (response.data?.login != null) {
+        final token = response.data!.login.token;
+        final userId = response.data!.login.userId;
+        log('Login successful. Token: $token, UserId: $userId');
+
+        // 1. トークンとUserIdを保存
+        await storage.write(key: 'auth_token', value: token);
+        await storage.write(key: 'user_id', value: userId);
+
+        // 2. FerryClientの状態をリフレッシュして、新しいトークンを読み込ませる
+        ref.invalidate(ferryClientProvider);
+
+        if (mounted) {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => const HomePage()),
+          );
+        }
+      }
+    } catch (e) {
+      log('Login failed with exception: $e');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('エラーが発生しました: $e')),
+        );
+      }
+    }
+  }
+
+  void _navigateToSignUp() {
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (context) => const SignupPage()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    // final client = ClientProvider.of(context);
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('ログイン'),
@@ -35,6 +88,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           children: [
             TextField(
               controller: _emailController,
+              style: const TextStyle(color: Colors.black),
               decoration: const InputDecoration(
                 labelText: 'メールアドレス',
               ),
@@ -46,6 +100,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             const SizedBox(height: 16.0),
             TextField(
               controller: _passwordController,
+              style: const TextStyle(color: Colors.black),
               obscureText: true,
               decoration: const InputDecoration(
                 labelText: 'パスワード',
@@ -53,47 +108,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             ),
             const SizedBox(height: 32.0),
             ElevatedButton(
-              onPressed: () async {
-                // final request = GLoginReq((b) => b
-                //   ..vars.input.email = _emailController.text
-                //   ..vars.input.password = _passwordController.text);
-
-                // final response = await client.request(request).first;
-
-                // if (response.hasErrors) {
-                //   log('Login Error: ${response.graphqlErrors.toString()}');
-                //   ScaffoldMessenger.of(context).showSnackBar(
-                //     SnackBar(content: Text('ログインに失敗しました: ${response.graphqlErrors.toString()}')),
-                //   );
-                // } else if (response.data != null && response.data!.login != null) {
-                //   // ログイン成功後、ユーザーデータをフェッチ
-                //   await ref.read(userDataProvider.notifier).fetchUserData(client);
-
-                //   Navigator.of(context).pushReplacement(
-                //     MaterialPageRoute(builder: (context) => const HomePage()),
-                //   );
-                // } else {
-                //   log('Login failed: No data or login is null.');
-                //   ScaffoldMessenger.of(context).showSnackBar(
-                //     const SnackBar(content: Text('ログインに失敗しました。')),
-                //   );
-                // }
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('ログイン機能は一時的に無効化されています。')),
-                );
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => const HomePage()),
-                );
-              },
+              onPressed: _login,
               child: const Text('ログイン'),
             ),
             const SizedBox(height: 16.0),
             TextButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const SignupPage()),
-                );
-              },
+              onPressed: _navigateToSignUp,
               child: const Text('アカウントをお持ちでないですか？ サインアップ'),
             ),
           ],

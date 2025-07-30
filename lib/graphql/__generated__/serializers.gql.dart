@@ -10,8 +10,11 @@ import 'package:gql_code_builder_serializers/gql_code_builder_serializers.dart'
 import 'package:hiroyuki_diet_app/graphql/__generated__/queries.data.gql.dart'
     show
         GCreateMealData,
+        GCreateMealData_createMeal,
         GCreateProfileData,
+        GCreateProfileData_createProfile,
         GDeleteMealData,
+        GDeleteMealData_deleteMeal,
         GFoodPartsData,
         GGetFoodsData,
         GGetFoodsData_foods,
@@ -27,6 +30,7 @@ import 'package:hiroyuki_diet_app/graphql/__generated__/queries.data.gql.dart'
         GMealPartsData,
         GMealPartsData_foods,
         GSignUpData,
+        GSignUpData_signUp,
         GUserProfilePartsData;
 import 'package:hiroyuki_diet_app/graphql/__generated__/queries.req.gql.dart'
     show
@@ -77,12 +81,15 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
 @SerializersFor([
   GAuth,
   GCreateMealData,
+  GCreateMealData_createMeal,
   GCreateMealReq,
   GCreateMealVars,
   GCreateProfileData,
+  GCreateProfileData_createProfile,
   GCreateProfileReq,
   GCreateProfileVars,
   GDeleteMealData,
+  GDeleteMealData_deleteMeal,
   GDeleteMealReq,
   GDeleteMealVars,
   GFieldEnum,
@@ -122,6 +129,7 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GMealPartsVars,
   GMealTypeEnum,
   GSignUpData,
+  GSignUpData_signUp,
   GSignUpReq,
   GSignUpVars,
   GSkinPartEnum,

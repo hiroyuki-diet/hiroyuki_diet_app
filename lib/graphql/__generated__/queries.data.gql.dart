@@ -342,7 +342,7 @@ abstract class GSignUpData implements Built<GSignUpData, GSignUpDataBuilder> {
 
   @BuiltValueField(wireName: '__typename')
   String get G__typename;
-  String? get signUp;
+  GSignUpData_signUp get signUp;
   static Serializer<GSignUpData> get serializer => _$gSignUpDataSerializer;
 
   Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
@@ -353,6 +353,36 @@ abstract class GSignUpData implements Built<GSignUpData, GSignUpDataBuilder> {
   static GSignUpData? fromJson(Map<String, dynamic> json) =>
       _i1.serializers.deserializeWith(
         GSignUpData.serializer,
+        json,
+      );
+}
+
+abstract class GSignUpData_signUp
+    implements Built<GSignUpData_signUp, GSignUpData_signUpBuilder> {
+  GSignUpData_signUp._();
+
+  factory GSignUpData_signUp(
+          [void Function(GSignUpData_signUpBuilder b) updates]) =
+      _$GSignUpData_signUp;
+
+  static void _initializeBuilder(GSignUpData_signUpBuilder b) =>
+      b..G__typename = 'JWTTokenResponse';
+
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  String get userId;
+  String get token;
+  static Serializer<GSignUpData_signUp> get serializer =>
+      _$gSignUpDataSignUpSerializer;
+
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+        GSignUpData_signUp.serializer,
+        this,
+      ) as Map<String, dynamic>);
+
+  static GSignUpData_signUp? fromJson(Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+        GSignUpData_signUp.serializer,
         json,
       );
 }
@@ -425,7 +455,7 @@ abstract class GCreateProfileData
 
   @BuiltValueField(wireName: '__typename')
   String get G__typename;
-  String? get createProfile;
+  GCreateProfileData_createProfile get createProfile;
   static Serializer<GCreateProfileData> get serializer =>
       _$gCreateProfileDataSerializer;
 
@@ -437,6 +467,38 @@ abstract class GCreateProfileData
   static GCreateProfileData? fromJson(Map<String, dynamic> json) =>
       _i1.serializers.deserializeWith(
         GCreateProfileData.serializer,
+        json,
+      );
+}
+
+abstract class GCreateProfileData_createProfile
+    implements
+        Built<GCreateProfileData_createProfile,
+            GCreateProfileData_createProfileBuilder> {
+  GCreateProfileData_createProfile._();
+
+  factory GCreateProfileData_createProfile(
+          [void Function(GCreateProfileData_createProfileBuilder b) updates]) =
+      _$GCreateProfileData_createProfile;
+
+  static void _initializeBuilder(GCreateProfileData_createProfileBuilder b) =>
+      b..G__typename = 'MutationSuccessResponse';
+
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  String get id;
+  static Serializer<GCreateProfileData_createProfile> get serializer =>
+      _$gCreateProfileDataCreateProfileSerializer;
+
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+        GCreateProfileData_createProfile.serializer,
+        this,
+      ) as Map<String, dynamic>);
+
+  static GCreateProfileData_createProfile? fromJson(
+          Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+        GCreateProfileData_createProfile.serializer,
         json,
       );
 }
@@ -453,7 +515,7 @@ abstract class GCreateMealData
 
   @BuiltValueField(wireName: '__typename')
   String get G__typename;
-  String? get createMeal;
+  GCreateMealData_createMeal get createMeal;
   static Serializer<GCreateMealData> get serializer =>
       _$gCreateMealDataSerializer;
 
@@ -465,6 +527,36 @@ abstract class GCreateMealData
   static GCreateMealData? fromJson(Map<String, dynamic> json) =>
       _i1.serializers.deserializeWith(
         GCreateMealData.serializer,
+        json,
+      );
+}
+
+abstract class GCreateMealData_createMeal
+    implements
+        Built<GCreateMealData_createMeal, GCreateMealData_createMealBuilder> {
+  GCreateMealData_createMeal._();
+
+  factory GCreateMealData_createMeal(
+          [void Function(GCreateMealData_createMealBuilder b) updates]) =
+      _$GCreateMealData_createMeal;
+
+  static void _initializeBuilder(GCreateMealData_createMealBuilder b) =>
+      b..G__typename = 'MutationSuccessResponse';
+
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  String get id;
+  static Serializer<GCreateMealData_createMeal> get serializer =>
+      _$gCreateMealDataCreateMealSerializer;
+
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+        GCreateMealData_createMeal.serializer,
+        this,
+      ) as Map<String, dynamic>);
+
+  static GCreateMealData_createMeal? fromJson(Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+        GCreateMealData_createMeal.serializer,
         json,
       );
 }
@@ -481,7 +573,7 @@ abstract class GDeleteMealData
 
   @BuiltValueField(wireName: '__typename')
   String get G__typename;
-  String? get deleteMeal;
+  GDeleteMealData_deleteMeal get deleteMeal;
   static Serializer<GDeleteMealData> get serializer =>
       _$gDeleteMealDataSerializer;
 
@@ -493,6 +585,36 @@ abstract class GDeleteMealData
   static GDeleteMealData? fromJson(Map<String, dynamic> json) =>
       _i1.serializers.deserializeWith(
         GDeleteMealData.serializer,
+        json,
+      );
+}
+
+abstract class GDeleteMealData_deleteMeal
+    implements
+        Built<GDeleteMealData_deleteMeal, GDeleteMealData_deleteMealBuilder> {
+  GDeleteMealData_deleteMeal._();
+
+  factory GDeleteMealData_deleteMeal(
+          [void Function(GDeleteMealData_deleteMealBuilder b) updates]) =
+      _$GDeleteMealData_deleteMeal;
+
+  static void _initializeBuilder(GDeleteMealData_deleteMealBuilder b) =>
+      b..G__typename = 'MutationSuccessResponse';
+
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  String get id;
+  static Serializer<GDeleteMealData_deleteMeal> get serializer =>
+      _$gDeleteMealDataDeleteMealSerializer;
+
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+        GDeleteMealData_deleteMeal.serializer,
+        this,
+      ) as Map<String, dynamic>);
+
+  static GDeleteMealData_deleteMeal? fromJson(Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+        GDeleteMealData_deleteMeal.serializer,
         json,
       );
 }

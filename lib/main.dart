@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:ferry/ferry.dart';
-// import 'package:ferry_flutter/ferry_flutter.dart';
-// import 'package:gql_dio_link/gql_dio_link.dart';
-// import 'package:dio/dio.dart';
-import 'package:hiroyuki_diet_app/pages/home.dart';
-import 'pages/login_page.dart';
+// import 'package:hiroyuki_diet_app/pages/home.dart';
+import 'package:hiroyuki_diet_app/pages/login_page.dart';
 
 // Client initClient() {
 //   final link = DioLink(
@@ -54,7 +50,7 @@ class MyApp extends StatelessWidget {
             titleSmall: TextStyle(color: Colors.white),
           ),
         ),
-        home: const HomePage(),
+        home: LoginPage(),
       );
     // );
   }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:ferry_flutter/ferry_flutter.dart';
 import '../providers/user_data_provider.dart';
 import 'data_page.dart';
 import 'mission_page.dart';
@@ -20,11 +19,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   void initState() {
     super.initState();
-    // ウィジェットがビルドされた後にユーザーデータをフェッチ
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      // final client = ClientProvider.of(context);
-      // ref.read(userDataProvider.notifier).fetchUserData(client);
-    });
+    ref.read(userDataProvider.notifier).fetchUserData();
   }
 
   void _onBottomItemTapped(int index) {

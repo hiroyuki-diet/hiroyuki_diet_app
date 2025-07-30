@@ -1,9 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:ferry/ferry.dart';
-import 'dart:developer';
-// import '../graphql_api.dart'; // 生成されるFerryのコード
+import 'package:ferry/ferry.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:hiroyuki_diet_app/providers/client_provider.dart';
+import 'package:hiroyuki_diet_app/graphql/__generated__/queries.req.gql.dart';
+import 'package:hiroyuki_diet_app/graphql/__generated__/queries.data.gql.dart';
 
-// ユーザーデータモデル
+// UserDataクラスの定義
 class UserData {
   final String userName;
   final double weight;
@@ -17,52 +19,59 @@ class UserData {
     required this.level,
   });
 
-  // factory UserData.fromGetUserDataResponse(GetUserData$Query$User json) {
-  //   return UserData(
-  //     userName: json.profile.userName,
-  //     weight: json.profile.weight.toDouble(),
-  //     targetWeight: json.profile.targetWeight.toDouble(),
-  //     level: json.level,
-  //   );
-  // }
-  factory UserData.fromJson(Map<String, dynamic> json) {
+  factory UserData.fromGetUserDataResponse(GGetUserDataData_user user) {
     return UserData(
-      userName: json['userName'] as String,
-      weight: (json['weight'] as num).toDouble(),
-      targetWeight: (json['targetWeight'] as num).toDouble(),
-      level: json['level'] as int,
+      userName: user.profile.userName,
+      weight: user.profile.weight.toDouble(),
+      targetWeight: user.profile.targetWeight.toDouble(),
+      level: user.level,
     );
   }
 }
 
 // ユーザーデータプロバイダー
 final userDataProvider = StateNotifierProvider<UserDataNotifier, UserData?>((ref) {
-  return UserDataNotifier();
+  final client = ref.watch(ferryClientProvider);
+  return UserDataNotifier(client);
 });
 
 class UserDataNotifier extends StateNotifier<UserData?> {
-  UserDataNotifier() : super(null);
+  final Client _client;
+  final _storage = const FlutterSecureStorage();
 
-  // Future<void> fetchUserData(Client client) async {
-  //   const String userId = "f1b0f685-a713-4e06-82aa-0e63f619aa1c"; // 仮のID
-  //   log('Fetching user data for userId: $userId');
+  UserDataNotifier(this._client) : super(null);
 
-  //   final request = GGetUserDataReq((b) => b
-  //     ..vars.userId = userId);
+  Future<void> fetchUserData() async {
+    final userId = await _storage.read(key: 'user_id');
+    if (userId == null) {
+      print('User ID not found in storage.');
+      state = null;
+      return;
+    }
 
-  //   final response = await client.request(request).first;
+    print('Fetching user data for userId: $userId');
 
-  //   if (response.hasErrors) {
-  //     log('GraphQL Error: ${response.graphqlErrors.toString()}');
-  //     state = null;
-  //   } else if (response.data != null && response.data!.user != null) {
-  //     log('GraphQL Data: ${response.data!.toJson()}');
-  //     state = UserData.fromGetUserDataResponse(response.data!.user!);
-  //   } else {
-  //     log('No user data found or profile is null.');
-  //     state = null;
-  //   }
-  // }
+    final request = GGetUserDataReq((b) => b..vars.userId = userId);
+
+    _client.request(request).listen((response) {
+      if (response.hasErrors) {
+        print('--- ERROR ---');
+        print('GraphQL Errors: ${response.graphqlErrors}');
+        print('Link Exception: ${response.linkException}');
+        print('-------------');
+        state = null;
+      } else if (response.data?.user != null) {
+        print('GraphQL Data: ${response.data!.toJson()}');
+        state = UserData.fromGetUserDataResponse(response.data!.user);
+      } else {
+        print('No user data found.');
+        state = null;
+      }
+    }).onError((error) {
+      print('Stream Error: $error');
+      state = null;
+    });
+  }
 
   void clearUserData() {
     state = null;

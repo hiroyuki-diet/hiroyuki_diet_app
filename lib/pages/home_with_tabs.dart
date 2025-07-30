@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:ferry_flutter/ferry_flutter.dart';
 import '../providers/user_data_provider.dart';
 import 'momentum_page.dart';
 import 'meal_page.dart';
@@ -15,11 +14,11 @@ class HomeWithTabs extends ConsumerWidget {
 
     return DefaultTabController(
       length: 3,
-      initialIndex: 1, // Set 'ホーム' as the default tab
+      initialIndex: 1,
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          backgroundColor: const Color.fromARGB(255, 56, 180, 139),
+          backgroundColor: Colors.green,
           toolbarHeight: 70, // Adjusted height to fit content and TabBar
           title: Padding(
             padding: const EdgeInsets.only(top: 10.0, left: 16.0, right: 16.0), // Top and horizontal padding
@@ -30,26 +29,22 @@ class HomeWithTabs extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     // Level/XP display (Donut + Lv.X text)
-                    Column(
+                    Stack(
+                      alignment: Alignment.center,
                       children: [
-                        Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            SizedBox(
-                              width: 50, // Size of the donut
-                              height: 50,
-                              child: CircularProgressIndicator(
-                                value: 0.7, // Placeholder for XP progress (70%)
-                                strokeWidth: 5, // Thickness of the donut
-                                backgroundColor: Colors.grey[300], // Background of the donut
-                                valueColor: const AlwaysStoppedAnimation<Color>(Colors.yellow), // Progress color
-                              ),
-                            ),
-                            Text(
-                              'Lv.${userData?.level ?? '--'}', // Placeholder level
-                              style: TextStyle(color: Colors.white, fontSize: 14),
-                            ),
-                          ],
+                        SizedBox(
+                          width: 50, // Size of the donut
+                          height: 50,
+                          child: CircularProgressIndicator(
+                            value: 0.7, // Placeholder for XP progress (70%)
+                            strokeWidth: 5, // Thickness of the donut
+                            backgroundColor: Colors.grey[300], // Background of the donut
+                            valueColor: const AlwaysStoppedAnimation<Color>(Colors.yellow), // Progress color
+                          ),
+                        ),
+                        Text(
+                          'Lv.${userData?.level ?? '--'}', // Display user level
+                          style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
@@ -57,8 +52,8 @@ class HomeWithTabs extends ConsumerWidget {
                     // Username
                     Expanded(
                       child: Text(
-                        userData?.userName ?? 'ユーザーネーム', // Placeholder username
-                        style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                        userData?.userName ?? 'ユーザーネーム', // Display username
+                        style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
                         overflow: TextOverflow.ellipsis, // Handle long usernames
                       ),
                     ),

@@ -4,6 +4,22 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:gql/ast.dart' as _i1;
 
+const MutationSuccessResponse = _i1.ObjectTypeDefinitionNode(
+  name: _i1.NameNode(value: 'MutationSuccessResponse'),
+  directives: [],
+  interfaces: [],
+  fields: [
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'id'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'ID'),
+        isNonNull: true,
+      ),
+    )
+  ],
+);
 const FieldEnum = _i1.EnumTypeDefinitionNode(
   name: _i1.NameNode(value: 'FieldEnum'),
   directives: [],
@@ -178,8 +194,8 @@ const Mutation = _i1.ObjectTypeDefinitionNode(
         )
       ],
       type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'ID'),
-        isNonNull: false,
+        name: _i1.NameNode(value: 'JWTTokenResponse'),
+        isNonNull: true,
       ),
     ),
     _i1.FieldDefinitionNode(
@@ -235,8 +251,8 @@ const Mutation = _i1.ObjectTypeDefinitionNode(
         )
       ],
       type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'ID'),
-        isNonNull: false,
+        name: _i1.NameNode(value: 'MutationSuccessResponse'),
+        isNonNull: true,
       ),
     ),
     _i1.FieldDefinitionNode(
@@ -254,8 +270,8 @@ const Mutation = _i1.ObjectTypeDefinitionNode(
         )
       ],
       type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'ID'),
-        isNonNull: false,
+        name: _i1.NameNode(value: 'MutationSuccessResponse'),
+        isNonNull: true,
       ),
     ),
     _i1.FieldDefinitionNode(
@@ -273,8 +289,8 @@ const Mutation = _i1.ObjectTypeDefinitionNode(
         )
       ],
       type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'ID'),
-        isNonNull: false,
+        name: _i1.NameNode(value: 'MutationSuccessResponse'),
+        isNonNull: true,
       ),
     ),
     _i1.FieldDefinitionNode(
@@ -292,8 +308,8 @@ const Mutation = _i1.ObjectTypeDefinitionNode(
         )
       ],
       type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'ID'),
-        isNonNull: false,
+        name: _i1.NameNode(value: 'MutationSuccessResponse'),
+        isNonNull: true,
       ),
     ),
     _i1.FieldDefinitionNode(
@@ -311,8 +327,8 @@ const Mutation = _i1.ObjectTypeDefinitionNode(
         )
       ],
       type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'ID'),
-        isNonNull: false,
+        name: _i1.NameNode(value: 'MutationSuccessResponse'),
+        isNonNull: true,
       ),
     ),
     _i1.FieldDefinitionNode(
@@ -330,8 +346,8 @@ const Mutation = _i1.ObjectTypeDefinitionNode(
         )
       ],
       type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'ID'),
-        isNonNull: false,
+        name: _i1.NameNode(value: 'MutationSuccessResponse'),
+        isNonNull: true,
       ),
     ),
     _i1.FieldDefinitionNode(
@@ -349,8 +365,8 @@ const Mutation = _i1.ObjectTypeDefinitionNode(
         )
       ],
       type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'ID'),
-        isNonNull: false,
+        name: _i1.NameNode(value: 'MutationSuccessResponse'),
+        isNonNull: true,
       ),
     ),
     _i1.FieldDefinitionNode(
@@ -368,8 +384,8 @@ const Mutation = _i1.ObjectTypeDefinitionNode(
         )
       ],
       type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'ID'),
-        isNonNull: false,
+        name: _i1.NameNode(value: 'MutationSuccessResponse'),
+        isNonNull: true,
       ),
     ),
     _i1.FieldDefinitionNode(
@@ -387,8 +403,8 @@ const Mutation = _i1.ObjectTypeDefinitionNode(
         )
       ],
       type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'ID'),
-        isNonNull: false,
+        name: _i1.NameNode(value: 'MutationSuccessResponse'),
+        isNonNull: true,
       ),
     ),
     _i1.FieldDefinitionNode(
@@ -406,8 +422,8 @@ const Mutation = _i1.ObjectTypeDefinitionNode(
         )
       ],
       type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'ID'),
-        isNonNull: false,
+        name: _i1.NameNode(value: 'MutationSuccessResponse'),
+        isNonNull: true,
       ),
     ),
     _i1.FieldDefinitionNode(
@@ -425,8 +441,8 @@ const Mutation = _i1.ObjectTypeDefinitionNode(
         )
       ],
       type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'ID'),
-        isNonNull: false,
+        name: _i1.NameNode(value: 'MutationSuccessResponse'),
+        isNonNull: true,
       ),
     ),
   ],
@@ -1200,7 +1216,7 @@ const SignUpToken = _i1.ObjectTypeDefinitionNode(
   interfaces: [],
   fields: [
     _i1.FieldDefinitionNode(
-      name: _i1.NameNode(value: 'id'),
+      name: _i1.NameNode(value: 'userId'),
       directives: [],
       args: [],
       type: _i1.NamedTypeNode(
@@ -1213,7 +1229,7 @@ const SignUpToken = _i1.ObjectTypeDefinitionNode(
       directives: [],
       args: [],
       type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'Int'),
+        name: _i1.NameNode(value: 'String'),
         isNonNull: true,
       ),
     ),
@@ -1437,6 +1453,7 @@ const JWTTokenResponse = _i1.ObjectTypeDefinitionNode(
   ],
 );
 const document = _i1.DocumentNode(definitions: [
+  MutationSuccessResponse,
   FieldEnum,
   SkinPartEnum,
   MealTypeEnum,
