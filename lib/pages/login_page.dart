@@ -1,27 +1,73 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'dart:developer';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+import 'package:hiroyuki_diet_app/providers/client_provider.dart';
+import 'package:hiroyuki_diet_app/graphql/__generated__/queries.req.gql.dart';
 import 'home.dart';
 import 'signup_page.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  ConsumerState<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends ConsumerState<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  static const String loginMutationString = r'''
-    mutation Login($email: String!, $password: String!) {
-      login(email: $email, password: $password) {
-        id
+  Future<void> _login() async {
+    final client = ref.read(ferryClientProvider);
+    const storage = FlutterSecureStorage();
+
+    final request = GLoginReq((b) => b
+      ..vars.input.email = _emailController.text
+      ..vars.input.password = _passwordController.text);
+
+    try {
+      final response = await client.request(request).first;
+
+      if (response.hasErrors) {
+        print('Login Error: ${response.graphqlErrors}');
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('ログインに失敗しました: ${response.graphqlErrors}')),
+          );
+        }
+        return;
+      }
+
+      if (response.data?.login != null) {
+        final token = response.data!.login.token;
+        final userId = response.data!.login.userId;
+        log('Login successful. Token: $token, UserId: $userId');
+
+        // 1. トークンとUserIdを保存
+        await storage.write(key: 'auth_token', value: token);
+        await storage.write(key: 'user_id', value: userId);
+
+        // 2. FerryClientの状態をリフレッシュして、新しいトークンを読み込ませる
+        ref.invalidate(ferryClientProvider);
+
+        if (mounted) {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => const HomePage()),
+          );
+        }
+      }
+    } catch (e) {
+      log('Login failed with exception: $e');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('エラーが発生しました: $e')),
+        );
       }
     }
-  ''';
+  }
 
   void _navigateToSignUp() {
     Navigator.of(context).push(
@@ -42,6 +88,7 @@ class _LoginPageState extends State<LoginPage> {
           children: [
             TextField(
               controller: _emailController,
+              style: const TextStyle(color: Colors.black),
               decoration: const InputDecoration(
                 labelText: 'メールアドレス',
               ),
@@ -53,39 +100,16 @@ class _LoginPageState extends State<LoginPage> {
             const SizedBox(height: 16.0),
             TextField(
               controller: _passwordController,
+              style: const TextStyle(color: Colors.black),
               obscureText: true,
               decoration: const InputDecoration(
                 labelText: 'パスワード',
               ),
             ),
             const SizedBox(height: 32.0),
-            Mutation(
-              options: MutationOptions(
-                document: gql(loginMutationString),
-                onCompleted: (dynamic resultData) {
-                  if (resultData != null) {
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => const HomePage()),
-                    );
-                  }
-                },
-                onError: (error) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('ログインに失敗しました: $error')),
-                  );
-                },
-              ),
-              builder: (RunMutation runMutation, QueryResult? result) {
-                return ElevatedButton(
-                  onPressed: () {
-                    runMutation({
-                      'email': _emailController.text,
-                      'password': _passwordController.text,
-                    });
-                  },
-                  child: const Text('ログイン'),
-                );
-              },
+            ElevatedButton(
+              onPressed: _login,
+              child: const Text('ログイン'),
             ),
             const SizedBox(height: 16.0),
             TextButton(

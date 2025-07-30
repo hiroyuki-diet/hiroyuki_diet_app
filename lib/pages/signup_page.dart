@@ -1,25 +1,50 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'dart:developer';
+import 'package:hiroyuki_diet_app/providers/client_provider.dart';
+import 'package:hiroyuki_diet_app/graphql/__generated__/queries.req.gql.dart';
 
-class SignupPage extends StatefulWidget {
+class SignupPage extends ConsumerStatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
 
   @override
-  State<SignupPage> createState() => _SignupPageState();
+  ConsumerState<SignupPage> createState() => _SignupPageState();
 }
 
-class _SignupPageState extends State<SignupPage> {
+class _SignupPageState extends ConsumerState<SignupPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  static const String signUpMutationString = r'''
-    mutation SignUp($email: String!, $password: String!) {
-      signUp(email: $email, password: $password) {
-        id
+  void _signUp() {
+    final client = ref.read(ferryClientProvider);
+
+    final request = GSignUpReq((b) => b
+      ..vars.input.email = _emailController.text
+      ..vars.input.password = _passwordController.text);
+
+    client.request(request).listen((response) {
+      if (response.hasErrors) {
+        log('Signup Error: ${response.graphqlErrors}');
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('サインアップに失敗しました: ${response.graphqlErrors}')),
+          );
+        }
+        return;
       }
-    }
-  ''';
+
+      if (response.data?.signUp != null) {
+        log('Signup successful');
+        if (mounted) {
+          Navigator.of(context).pop();
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('サインアップに成功しました。ログインしてください。')),
+          );
+        }
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +59,7 @@ class _SignupPageState extends State<SignupPage> {
           children: [
             TextField(
               controller: _emailController,
+              style: const TextStyle(color: Colors.black),
               decoration: const InputDecoration(
                 labelText: 'メールアドレス',
               ),
@@ -45,41 +71,16 @@ class _SignupPageState extends State<SignupPage> {
             const SizedBox(height: 16.0),
             TextField(
               controller: _passwordController,
+              style: const TextStyle(color: Colors.black),
               obscureText: true,
               decoration: const InputDecoration(
                 labelText: 'パスワード',
               ),
             ),
             const SizedBox(height: 32.0),
-            Mutation(
-              options: MutationOptions(
-                document: gql(signUpMutationString),
-                onCompleted: (dynamic resultData) {
-                  if (resultData != null) {
-                    // サインアップ成功後、ログインページに戻る
-                    Navigator.of(context).pop();
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('サインアップに成功しました。ログインしてください。')),
-                    );
-                  }
-                },
-                onError: (error) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('サインアップに失敗しました: $error')),
-                  );
-                },
-              ),
-              builder: (RunMutation runMutation, QueryResult? result) {
-                return ElevatedButton(
-                  onPressed: () {
-                    runMutation({
-                      'email': _emailController.text,
-                      'password': _passwordController.text,
-                    });
-                  },
-                  child: const Text('サインアップ'),
-                );
-              },
+            ElevatedButton(
+              onPressed: _signUp,
+              child: const Text('サインアップ'),
             ),
           ],
         ),

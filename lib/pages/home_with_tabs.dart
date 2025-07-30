@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../providers/user_data_provider.dart';
 import 'momentum_page.dart';
 import 'meal_page.dart';
 import 'home_page.dart';
 
-class HomeWithTabs extends StatelessWidget {
+class HomeWithTabs extends ConsumerWidget {
   const HomeWithTabs({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userData = ref.watch(userDataProvider);
+
     return DefaultTabController(
       length: 3,
-      initialIndex: 1, // Set 'ホーム' as the default tab
+      initialIndex: 1,
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
@@ -24,60 +28,34 @@ class HomeWithTabs extends StatelessWidget {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    // Level/XP display (Donut + Icon + Lv.X text)
-                    Column(
+                    // Level/XP display (Donut + Lv.X text)
+                    Stack(
+                      alignment: Alignment.center,
                       children: [
-                        Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            SizedBox(
-                              width: 50, // Size of the donut
-                              height: 50,
-                              child: CircularProgressIndicator(
-                                value: 0.7, // Placeholder for XP progress (70%)
-                                strokeWidth: 5, // Thickness of the donut
-                                backgroundColor: Colors.grey[300], // Background of the donut
-                                valueColor: const AlwaysStoppedAnimation<Color>(Colors.yellow), // Progress color
-                              ),
-                            ),
-                            const Icon(Icons.person, color: Colors.white, size: 30), // Placeholder icon
-                          ],
+                        SizedBox(
+                          width: 50, // Size of the donut
+                          height: 50,
+                          child: CircularProgressIndicator(
+                            value: 0.7, // Placeholder for XP progress (70%)
+                            strokeWidth: 5, // Thickness of the donut
+                            backgroundColor: Colors.grey[300], // Background of the donut
+                            valueColor: const AlwaysStoppedAnimation<Color>(Colors.yellow), // Progress color
+                          ),
                         ),
-                        const Text(
-                          'Lv.10', // Placeholder level
-                          style: TextStyle(color: Colors.white, fontSize: 14),
+                        Text(
+                          'Lv.${userData?.level ?? '--'}', // Display user level
+                          style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
                     const SizedBox(width: 15), // Space between level and username
                     // Username
-                    const Expanded(
+                    Expanded(
                       child: Text(
-                        'ユーザーネーム', // Placeholder username
-                        style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                        userData?.userName ?? 'ユーザーネーム', // Display username
+                        style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
                         overflow: TextOverflow.ellipsis, // Handle long usernames
                       ),
-                    ),
-                    const SizedBox(width: 15), // Space between username and coins/tickets
-                    // Coins and Tickets (aligned to left within their column)
-                    const Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Icon(Icons.monetization_on, color: Colors.yellow, size: 20),
-                            SizedBox(width: 5),
-                            Text('1000', style: TextStyle(color: Colors.white, fontSize: 16)), // Placeholder coins
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Icon(Icons.airplane_ticket, color: Colors.orange, size: 20),
-                            SizedBox(width: 5),
-                            Text('5', style: TextStyle(color: Colors.white, fontSize: 16)), // Placeholder tickets
-                          ],
-                        ),
-                      ],
                     ),
                   ],
                 ),

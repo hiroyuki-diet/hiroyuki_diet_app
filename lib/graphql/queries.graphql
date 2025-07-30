@@ -1,0 +1,61 @@
+# ----------------------------------------
+# Fragments
+# ----------------------------------------
+fragment UserProfileParts on Profile {
+  id, userName, age, gender, weight, height, targetWeight,
+  targetDailyExerciseTime, targetDailyCarorie, isCreated
+}
+fragment FoodParts on Food {
+  id, name, estimateCalorie
+}
+fragment MealParts on Meal {
+  id, mealType, totalCalorie, foods { ...FoodParts }
+}
+
+# ----------------------------------------
+# Queries
+# ----------------------------------------
+query GetUserData($userId: ID!) {
+  user(id: $userId) {
+    id, email, level, experiencePoInt, profile { ...UserProfileParts }
+  }
+}
+query GetFoods {
+  foods { ...FoodParts }
+}
+query GetUserMeals($userId: ID!) {
+  user(id: $userId) {
+    meals { ...MealParts }
+  }
+}
+
+# ----------------------------------------
+# Mutations
+# ----------------------------------------
+mutation SignUp($input: Auth!) {
+  signUp(input: $input) {
+    userId
+    token
+  }
+}
+mutation Login($input: Auth!) {
+  login(input: $input) {
+    userId
+    token
+  }
+}
+mutation CreateProfile($input: InputProfile!) {
+  createProfile(input: $input) {
+    id
+  }
+}
+mutation CreateMeal($input: InputMeal!) {
+  createMeal(input: $input) {
+    id
+  }
+}
+mutation DeleteMeal($mealId: ID!) {
+  deleteMeal(input: $mealId) {
+    id
+  }
+}

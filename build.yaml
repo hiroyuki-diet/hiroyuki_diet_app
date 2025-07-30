@@ -1,0 +1,12 @@
+targets:
+  $default:
+    builders:
+      ferry_generator:graphql_builder:
+        enabled: true
+        options:
+          schema: "hiroyuki_diet_app|lib/graphql/schema.graphql"
+          sources: "lib/graphql/**.graphql"
+      ferry_generator:serializer_builder:
+        enabled: true
+        options:
+          schema: "hiroyuki_diet_app|lib/graphql/schema.graphql"
