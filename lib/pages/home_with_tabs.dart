@@ -73,7 +73,7 @@ class HomeWithTabs extends ConsumerWidget {
               tabs: [
                 Tab(text: '運動量'),
                 Tab(text: 'ホーム'),
-                Tab(text: 'カロリー'),
+                Tab(text: '食事管理'),
               ],
             ),
           ),

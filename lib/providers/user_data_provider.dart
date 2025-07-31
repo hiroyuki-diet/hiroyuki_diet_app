@@ -11,12 +11,14 @@ class UserData {
   final double weight;
   final double targetWeight;
   final int level;
+  final int targetDailyExerciseTime;
 
   UserData({
     required this.userName,
     required this.weight,
     required this.targetWeight,
     required this.level,
+    required this.targetDailyExerciseTime,
   });
 
   factory UserData.fromGetUserDataResponse(GGetUserDataData_user user) {
@@ -25,6 +27,7 @@ class UserData {
       weight: user.profile.weight.toDouble(),
       targetWeight: user.profile.targetWeight.toDouble(),
       level: user.level,
+      targetDailyExerciseTime: user.profile.targetDailyExerciseTime,
     );
   }
 }
