@@ -1,53 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'dart:developer';
-import 'package:hiroyuki_diet_app/providers/client_provider.dart';
-import 'package:hiroyuki_diet_app/graphql/__generated__/queries.req.gql.dart';
+import 'package:hiroyuki_diet_app/providers/signup_provider.dart';
 
-class SignupPage extends ConsumerStatefulWidget {
+class SignupPage extends ConsumerWidget {
   const SignupPage({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<SignupPage> createState() => _SignupPageState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final emailController = TextEditingController();
+    final passwordController = TextEditingController();
 
-class _SignupPageState extends ConsumerState<SignupPage> {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-
-  void _signUp() {
-    final client = ref.read(ferryClientProvider);
-
-    final request = GSignUpReq((b) => b
-      ..vars.input.email = _emailController.text
-      ..vars.input.password = _passwordController.text);
-
-    client.request(request).listen((response) {
-      if (response.hasErrors) {
-        log('Signup Error: ${response.graphqlErrors}');
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('サインアップに失敗しました: ${response.graphqlErrors}')),
-          );
-        }
-        return;
-      }
-
-      if (response.data?.signUp != null) {
-        log('Signup successful');
-        if (mounted) {
-          Navigator.of(context).pop();
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('サインアップに成功しました。ログインしてください。')),
-          );
-        }
+    ref.listen<SignupState>(signupProvider, (previous, next) {
+      if (next is SignupSuccess) {
+        Navigator.of(context).pop();
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('サインアップに成功しました。ログインしてください。')),
+        );
+      } else if (next is SignupError) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(next.message)),
+        );
       }
     });
-  }
 
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('サインアップ'),
@@ -58,7 +34,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
-              controller: _emailController,
+              controller: emailController,
               style: const TextStyle(color: Colors.black),
               decoration: const InputDecoration(
                 labelText: 'メールアドレス',
@@ -70,7 +46,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
             ),
             const SizedBox(height: 16.0),
             TextField(
-              controller: _passwordController,
+              controller: passwordController,
               style: const TextStyle(color: Colors.black),
               obscureText: true,
               decoration: const InputDecoration(
@@ -79,7 +55,12 @@ class _SignupPageState extends ConsumerState<SignupPage> {
             ),
             const SizedBox(height: 32.0),
             ElevatedButton(
-              onPressed: _signUp,
+              onPressed: () {
+                ref.read(signupProvider.notifier).signUp(
+                      emailController.text,
+                      passwordController.text,
+                    );
+              },
               child: const Text('サインアップ'),
             ),
           ],
