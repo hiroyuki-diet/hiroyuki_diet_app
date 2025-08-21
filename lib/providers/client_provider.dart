@@ -36,7 +36,7 @@ class AuthLink extends Link {
 final ferryClientProvider = Provider<Client>((ref) {
   const storage = FlutterSecureStorage();
 
-  final String uri = 'http://192.168.1.3:8080/query';
+  final String uri = 'http://localhost:8080/query';
   final httpLink = HttpLink(uri);
 
   final authLink = AuthLink(
