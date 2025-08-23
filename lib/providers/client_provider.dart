@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ferry/ferry.dart';
 import 'package:gql_http_link/gql_http_link.dart' show HttpLink, HttpLinkHeaders;
@@ -36,7 +37,9 @@ class AuthLink extends Link {
 final ferryClientProvider = Provider<Client>((ref) {
   const storage = FlutterSecureStorage();
 
-  final String uri = 'http://localhost:8080/query';
+  final String uri = Platform.isAndroid
+      ? 'http://10.0.2.2:8080/query' // ← Android用の設定
+      : 'http://localhost:8080/query';
   final httpLink = HttpLink(uri);
 
   final authLink = AuthLink(
