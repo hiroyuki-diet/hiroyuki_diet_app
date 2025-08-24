@@ -60,6 +60,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
+import 'dart:io';
+
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
@@ -104,7 +106,8 @@ class ApiConnectionTestPage extends StatelessWidget {
 
   Future<void> _runTest() async {
     // あなたのMacのIPアドレスに置き換えてください
-    final url = Uri.parse('http://192.168.1.3:8080/query');
+    final String host = Platform.isAndroid ? '10.0.2.2' : 'localhost';
+    final url = Uri.parse('http://$host:8080/query');
     
     final headers = {'Content-Type': 'application/json'};
     final body = jsonEncode({'query': '{__typename}'});
