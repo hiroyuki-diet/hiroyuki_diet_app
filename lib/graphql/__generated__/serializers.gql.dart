@@ -7,6 +7,12 @@ import 'package:built_value/standard_json_plugin.dart' show StandardJsonPlugin;
 import 'package:ferry_exec/ferry_exec.dart';
 import 'package:gql_code_builder_serializers/gql_code_builder_serializers.dart'
     show OperationSerializer;
+import 'package:hiroyuki_diet_app/graphql/__generated__/mutations.data.gql.dart'
+    show GCreateExerciseData, GCreateExerciseData_createExercise;
+import 'package:hiroyuki_diet_app/graphql/__generated__/mutations.req.gql.dart'
+    show GCreateExerciseReq;
+import 'package:hiroyuki_diet_app/graphql/__generated__/mutations.var.gql.dart'
+    show GCreateExerciseVars;
 import 'package:hiroyuki_diet_app/graphql/__generated__/queries.data.gql.dart'
     show
         GCreateMealData,
@@ -80,6 +86,10 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   ..addPlugin(StandardJsonPlugin());
 @SerializersFor([
   GAuth,
+  GCreateExerciseData,
+  GCreateExerciseData_createExercise,
+  GCreateExerciseReq,
+  GCreateExerciseVars,
   GCreateMealData,
   GCreateMealData_createMeal,
   GCreateMealReq,

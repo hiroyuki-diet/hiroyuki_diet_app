@@ -64,6 +64,8 @@ abstract class GGetUserMealsVars
       _$GGetUserMealsVars;
 
   String get userId;
+  String get offset;
+  String get limit;
   static Serializer<GGetUserMealsVars> get serializer =>
       _$gGetUserMealsVarsSerializer;
 

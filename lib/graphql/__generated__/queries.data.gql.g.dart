@@ -679,11 +679,15 @@ class _$GSignUpDataSerializer implements StructuredSerializer<GSignUpData> {
       '__typename',
       serializers.serialize(object.G__typename,
           specifiedType: const FullType(String)),
-      'signUp',
-      serializers.serialize(object.signUp,
-          specifiedType: const FullType(GSignUpData_signUp)),
     ];
-
+    Object? value;
+    value = object.signUp;
+    if (value != null) {
+      result
+        ..add('signUp')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(GSignUpData_signUp)));
+    }
     return result;
   }
 
@@ -890,11 +894,15 @@ class _$GCreateProfileDataSerializer
       '__typename',
       serializers.serialize(object.G__typename,
           specifiedType: const FullType(String)),
-      'createProfile',
-      serializers.serialize(object.createProfile,
-          specifiedType: const FullType(GCreateProfileData_createProfile)),
     ];
-
+    Object? value;
+    value = object.createProfile;
+    if (value != null) {
+      result
+        ..add('createProfile')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(GCreateProfileData_createProfile)));
+    }
     return result;
   }
 
@@ -945,10 +953,15 @@ class _$GCreateProfileData_createProfileSerializer
       '__typename',
       serializers.serialize(object.G__typename,
           specifiedType: const FullType(String)),
-      'id',
-      serializers.serialize(object.id, specifiedType: const FullType(String)),
     ];
-
+    Object? value;
+    value = object.id;
+    if (value != null) {
+      result
+        ..add('id')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -970,7 +983,7 @@ class _$GCreateProfileData_createProfileSerializer
           break;
         case 'id':
           result.id = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
       }
     }
@@ -993,11 +1006,15 @@ class _$GCreateMealDataSerializer
       '__typename',
       serializers.serialize(object.G__typename,
           specifiedType: const FullType(String)),
-      'createMeal',
-      serializers.serialize(object.createMeal,
-          specifiedType: const FullType(GCreateMealData_createMeal)),
     ];
-
+    Object? value;
+    value = object.createMeal;
+    if (value != null) {
+      result
+        ..add('createMeal')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(GCreateMealData_createMeal)));
+    }
     return result;
   }
 
@@ -1047,10 +1064,15 @@ class _$GCreateMealData_createMealSerializer
       '__typename',
       serializers.serialize(object.G__typename,
           specifiedType: const FullType(String)),
-      'id',
-      serializers.serialize(object.id, specifiedType: const FullType(String)),
     ];
-
+    Object? value;
+    value = object.id;
+    if (value != null) {
+      result
+        ..add('id')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -1072,7 +1094,7 @@ class _$GCreateMealData_createMealSerializer
           break;
         case 'id':
           result.id = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
       }
     }
@@ -1095,11 +1117,15 @@ class _$GDeleteMealDataSerializer
       '__typename',
       serializers.serialize(object.G__typename,
           specifiedType: const FullType(String)),
-      'deleteMeal',
-      serializers.serialize(object.deleteMeal,
-          specifiedType: const FullType(GDeleteMealData_deleteMeal)),
     ];
-
+    Object? value;
+    value = object.deleteMeal;
+    if (value != null) {
+      result
+        ..add('deleteMeal')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(GDeleteMealData_deleteMeal)));
+    }
     return result;
   }
 
@@ -1149,10 +1175,15 @@ class _$GDeleteMealData_deleteMealSerializer
       '__typename',
       serializers.serialize(object.G__typename,
           specifiedType: const FullType(String)),
-      'id',
-      serializers.serialize(object.id, specifiedType: const FullType(String)),
     ];
-
+    Object? value;
+    value = object.id;
+    if (value != null) {
+      result
+        ..add('id')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -1174,7 +1205,7 @@ class _$GDeleteMealData_deleteMealSerializer
           break;
         case 'id':
           result.id = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+              specifiedType: const FullType(String)) as String?;
           break;
       }
     }
@@ -2836,16 +2867,14 @@ class _$GSignUpData extends GSignUpData {
   @override
   final String G__typename;
   @override
-  final GSignUpData_signUp signUp;
+  final GSignUpData_signUp? signUp;
 
   factory _$GSignUpData([void Function(GSignUpDataBuilder)? updates]) =>
       (new GSignUpDataBuilder()..update(updates))._build();
 
-  _$GSignUpData._({required this.G__typename, required this.signUp})
-      : super._() {
+  _$GSignUpData._({required this.G__typename, this.signUp}) : super._() {
     BuiltValueNullFieldError.checkNotNull(
         G__typename, r'GSignUpData', 'G__typename');
-    BuiltValueNullFieldError.checkNotNull(signUp, r'GSignUpData', 'signUp');
   }
 
   @override
@@ -2901,7 +2930,7 @@ class GSignUpDataBuilder implements Builder<GSignUpData, GSignUpDataBuilder> {
     final $v = _$v;
     if ($v != null) {
       _G__typename = $v.G__typename;
-      _signUp = $v.signUp.toBuilder();
+      _signUp = $v.signUp?.toBuilder();
       _$v = null;
     }
     return this;
@@ -2928,12 +2957,12 @@ class GSignUpDataBuilder implements Builder<GSignUpData, GSignUpDataBuilder> {
           new _$GSignUpData._(
               G__typename: BuiltValueNullFieldError.checkNotNull(
                   G__typename, r'GSignUpData', 'G__typename'),
-              signUp: signUp.build());
+              signUp: _signUp?.build());
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'signUp';
-        signUp.build();
+        _signUp?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             r'GSignUpData', _$failedField, e.toString());
@@ -3299,19 +3328,16 @@ class _$GCreateProfileData extends GCreateProfileData {
   @override
   final String G__typename;
   @override
-  final GCreateProfileData_createProfile createProfile;
+  final GCreateProfileData_createProfile? createProfile;
 
   factory _$GCreateProfileData(
           [void Function(GCreateProfileDataBuilder)? updates]) =>
       (new GCreateProfileDataBuilder()..update(updates))._build();
 
-  _$GCreateProfileData._(
-      {required this.G__typename, required this.createProfile})
+  _$GCreateProfileData._({required this.G__typename, this.createProfile})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
         G__typename, r'GCreateProfileData', 'G__typename');
-    BuiltValueNullFieldError.checkNotNull(
-        createProfile, r'GCreateProfileData', 'createProfile');
   }
 
   @override
@@ -3371,7 +3397,7 @@ class GCreateProfileDataBuilder
     final $v = _$v;
     if ($v != null) {
       _G__typename = $v.G__typename;
-      _createProfile = $v.createProfile.toBuilder();
+      _createProfile = $v.createProfile?.toBuilder();
       _$v = null;
     }
     return this;
@@ -3398,12 +3424,12 @@ class GCreateProfileDataBuilder
           new _$GCreateProfileData._(
               G__typename: BuiltValueNullFieldError.checkNotNull(
                   G__typename, r'GCreateProfileData', 'G__typename'),
-              createProfile: createProfile.build());
+              createProfile: _createProfile?.build());
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'createProfile';
-        createProfile.build();
+        _createProfile?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             r'GCreateProfileData', _$failedField, e.toString());
@@ -3420,19 +3446,16 @@ class _$GCreateProfileData_createProfile
   @override
   final String G__typename;
   @override
-  final String id;
+  final String? id;
 
   factory _$GCreateProfileData_createProfile(
           [void Function(GCreateProfileData_createProfileBuilder)? updates]) =>
       (new GCreateProfileData_createProfileBuilder()..update(updates))._build();
 
-  _$GCreateProfileData_createProfile._(
-      {required this.G__typename, required this.id})
+  _$GCreateProfileData_createProfile._({required this.G__typename, this.id})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
         G__typename, r'GCreateProfileData_createProfile', 'G__typename');
-    BuiltValueNullFieldError.checkNotNull(
-        id, r'GCreateProfileData_createProfile', 'id');
   }
 
   @override
@@ -3517,8 +3540,7 @@ class GCreateProfileData_createProfileBuilder
         new _$GCreateProfileData_createProfile._(
             G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
                 r'GCreateProfileData_createProfile', 'G__typename'),
-            id: BuiltValueNullFieldError.checkNotNull(
-                id, r'GCreateProfileData_createProfile', 'id'));
+            id: id);
     replace(_$result);
     return _$result;
   }
@@ -3528,17 +3550,15 @@ class _$GCreateMealData extends GCreateMealData {
   @override
   final String G__typename;
   @override
-  final GCreateMealData_createMeal createMeal;
+  final GCreateMealData_createMeal? createMeal;
 
   factory _$GCreateMealData([void Function(GCreateMealDataBuilder)? updates]) =>
       (new GCreateMealDataBuilder()..update(updates))._build();
 
-  _$GCreateMealData._({required this.G__typename, required this.createMeal})
+  _$GCreateMealData._({required this.G__typename, this.createMeal})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
         G__typename, r'GCreateMealData', 'G__typename');
-    BuiltValueNullFieldError.checkNotNull(
-        createMeal, r'GCreateMealData', 'createMeal');
   }
 
   @override
@@ -3597,7 +3617,7 @@ class GCreateMealDataBuilder
     final $v = _$v;
     if ($v != null) {
       _G__typename = $v.G__typename;
-      _createMeal = $v.createMeal.toBuilder();
+      _createMeal = $v.createMeal?.toBuilder();
       _$v = null;
     }
     return this;
@@ -3624,12 +3644,12 @@ class GCreateMealDataBuilder
           new _$GCreateMealData._(
               G__typename: BuiltValueNullFieldError.checkNotNull(
                   G__typename, r'GCreateMealData', 'G__typename'),
-              createMeal: createMeal.build());
+              createMeal: _createMeal?.build());
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'createMeal';
-        createMeal.build();
+        _createMeal?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             r'GCreateMealData', _$failedField, e.toString());
@@ -3645,18 +3665,16 @@ class _$GCreateMealData_createMeal extends GCreateMealData_createMeal {
   @override
   final String G__typename;
   @override
-  final String id;
+  final String? id;
 
   factory _$GCreateMealData_createMeal(
           [void Function(GCreateMealData_createMealBuilder)? updates]) =>
       (new GCreateMealData_createMealBuilder()..update(updates))._build();
 
-  _$GCreateMealData_createMeal._({required this.G__typename, required this.id})
+  _$GCreateMealData_createMeal._({required this.G__typename, this.id})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
         G__typename, r'GCreateMealData_createMeal', 'G__typename');
-    BuiltValueNullFieldError.checkNotNull(
-        id, r'GCreateMealData_createMeal', 'id');
   }
 
   @override
@@ -3740,8 +3758,7 @@ class GCreateMealData_createMealBuilder
         new _$GCreateMealData_createMeal._(
             G__typename: BuiltValueNullFieldError.checkNotNull(
                 G__typename, r'GCreateMealData_createMeal', 'G__typename'),
-            id: BuiltValueNullFieldError.checkNotNull(
-                id, r'GCreateMealData_createMeal', 'id'));
+            id: id);
     replace(_$result);
     return _$result;
   }
@@ -3751,17 +3768,15 @@ class _$GDeleteMealData extends GDeleteMealData {
   @override
   final String G__typename;
   @override
-  final GDeleteMealData_deleteMeal deleteMeal;
+  final GDeleteMealData_deleteMeal? deleteMeal;
 
   factory _$GDeleteMealData([void Function(GDeleteMealDataBuilder)? updates]) =>
       (new GDeleteMealDataBuilder()..update(updates))._build();
 
-  _$GDeleteMealData._({required this.G__typename, required this.deleteMeal})
+  _$GDeleteMealData._({required this.G__typename, this.deleteMeal})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
         G__typename, r'GDeleteMealData', 'G__typename');
-    BuiltValueNullFieldError.checkNotNull(
-        deleteMeal, r'GDeleteMealData', 'deleteMeal');
   }
 
   @override
@@ -3820,7 +3835,7 @@ class GDeleteMealDataBuilder
     final $v = _$v;
     if ($v != null) {
       _G__typename = $v.G__typename;
-      _deleteMeal = $v.deleteMeal.toBuilder();
+      _deleteMeal = $v.deleteMeal?.toBuilder();
       _$v = null;
     }
     return this;
@@ -3847,12 +3862,12 @@ class GDeleteMealDataBuilder
           new _$GDeleteMealData._(
               G__typename: BuiltValueNullFieldError.checkNotNull(
                   G__typename, r'GDeleteMealData', 'G__typename'),
-              deleteMeal: deleteMeal.build());
+              deleteMeal: _deleteMeal?.build());
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'deleteMeal';
-        deleteMeal.build();
+        _deleteMeal?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             r'GDeleteMealData', _$failedField, e.toString());
@@ -3868,18 +3883,16 @@ class _$GDeleteMealData_deleteMeal extends GDeleteMealData_deleteMeal {
   @override
   final String G__typename;
   @override
-  final String id;
+  final String? id;
 
   factory _$GDeleteMealData_deleteMeal(
           [void Function(GDeleteMealData_deleteMealBuilder)? updates]) =>
       (new GDeleteMealData_deleteMealBuilder()..update(updates))._build();
 
-  _$GDeleteMealData_deleteMeal._({required this.G__typename, required this.id})
+  _$GDeleteMealData_deleteMeal._({required this.G__typename, this.id})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
         G__typename, r'GDeleteMealData_deleteMeal', 'G__typename');
-    BuiltValueNullFieldError.checkNotNull(
-        id, r'GDeleteMealData_deleteMeal', 'id');
   }
 
   @override
@@ -3963,8 +3976,7 @@ class GDeleteMealData_deleteMealBuilder
         new _$GDeleteMealData_deleteMeal._(
             G__typename: BuiltValueNullFieldError.checkNotNull(
                 G__typename, r'GDeleteMealData_deleteMeal', 'G__typename'),
-            id: BuiltValueNullFieldError.checkNotNull(
-                id, r'GDeleteMealData_deleteMeal', 'id'));
+            id: id);
     replace(_$result);
     return _$result;
   }

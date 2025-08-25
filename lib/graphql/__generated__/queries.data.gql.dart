@@ -342,7 +342,7 @@ abstract class GSignUpData implements Built<GSignUpData, GSignUpDataBuilder> {
 
   @BuiltValueField(wireName: '__typename')
   String get G__typename;
-  GSignUpData_signUp get signUp;
+  GSignUpData_signUp? get signUp;
   static Serializer<GSignUpData> get serializer => _$gSignUpDataSerializer;
 
   Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
@@ -455,7 +455,7 @@ abstract class GCreateProfileData
 
   @BuiltValueField(wireName: '__typename')
   String get G__typename;
-  GCreateProfileData_createProfile get createProfile;
+  GCreateProfileData_createProfile? get createProfile;
   static Serializer<GCreateProfileData> get serializer =>
       _$gCreateProfileDataSerializer;
 
@@ -486,7 +486,7 @@ abstract class GCreateProfileData_createProfile
 
   @BuiltValueField(wireName: '__typename')
   String get G__typename;
-  String get id;
+  String? get id;
   static Serializer<GCreateProfileData_createProfile> get serializer =>
       _$gCreateProfileDataCreateProfileSerializer;
 
@@ -515,7 +515,7 @@ abstract class GCreateMealData
 
   @BuiltValueField(wireName: '__typename')
   String get G__typename;
-  GCreateMealData_createMeal get createMeal;
+  GCreateMealData_createMeal? get createMeal;
   static Serializer<GCreateMealData> get serializer =>
       _$gCreateMealDataSerializer;
 
@@ -545,7 +545,7 @@ abstract class GCreateMealData_createMeal
 
   @BuiltValueField(wireName: '__typename')
   String get G__typename;
-  String get id;
+  String? get id;
   static Serializer<GCreateMealData_createMeal> get serializer =>
       _$gCreateMealDataCreateMealSerializer;
 
@@ -573,7 +573,7 @@ abstract class GDeleteMealData
 
   @BuiltValueField(wireName: '__typename')
   String get G__typename;
-  GDeleteMealData_deleteMeal get deleteMeal;
+  GDeleteMealData_deleteMeal? get deleteMeal;
   static Serializer<GDeleteMealData> get serializer =>
       _$gDeleteMealDataSerializer;
 
@@ -603,7 +603,7 @@ abstract class GDeleteMealData_deleteMeal
 
   @BuiltValueField(wireName: '__typename')
   String get G__typename;
-  String get id;
+  String? get id;
   static Serializer<GDeleteMealData_deleteMeal> get serializer =>
       _$gDeleteMealDataDeleteMealSerializer;
 

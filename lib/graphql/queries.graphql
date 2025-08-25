@@ -23,9 +23,11 @@ query GetUserData($userId: ID!) {
 query GetFoods {
   foods { ...FoodParts }
 }
-query GetUserMeals($userId: ID!) {
+query GetUserMeals($userId: ID!, $offset: String!, $limit: String!) {
   user(id: $userId) {
-    meals { ...MealParts }
+    meals(offset: $offset, limit: $limit) {
+      ...MealParts
+    }
   }
 }
 

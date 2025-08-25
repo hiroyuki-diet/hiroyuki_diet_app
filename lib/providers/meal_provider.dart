@@ -33,7 +33,7 @@ class MealNotifier extends StateNotifier<MealListState> {
       if (response.hasErrors) {
         state = AsyncValue.error(response.graphqlErrors ?? 'Unknown error', StackTrace.current);
       } else if (response.data?.user != null) {
-        final meals = response.data!.user!.meals?.toList() ?? [];
+        final meals = response.data!.user.meals?.toList() ?? [];
         state = AsyncValue.data(meals);
       } else {
         state = const AsyncValue.data([]);

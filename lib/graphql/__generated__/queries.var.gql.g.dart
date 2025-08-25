@@ -103,6 +103,12 @@ class _$GGetUserMealsVarsSerializer
       'userId',
       serializers.serialize(object.userId,
           specifiedType: const FullType(String)),
+      'offset',
+      serializers.serialize(object.offset,
+          specifiedType: const FullType(String)),
+      'limit',
+      serializers.serialize(object.limit,
+          specifiedType: const FullType(String)),
     ];
 
     return result;
@@ -122,6 +128,14 @@ class _$GGetUserMealsVarsSerializer
       switch (key) {
         case 'userId':
           result.userId = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'offset':
+          result.offset = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'limit':
+          result.limit = serializers.deserialize(value,
               specifiedType: const FullType(String))! as String;
           break;
       }
@@ -553,14 +567,23 @@ class GGetFoodsVarsBuilder
 class _$GGetUserMealsVars extends GGetUserMealsVars {
   @override
   final String userId;
+  @override
+  final String offset;
+  @override
+  final String limit;
 
   factory _$GGetUserMealsVars(
           [void Function(GGetUserMealsVarsBuilder)? updates]) =>
       (new GGetUserMealsVarsBuilder()..update(updates))._build();
 
-  _$GGetUserMealsVars._({required this.userId}) : super._() {
+  _$GGetUserMealsVars._(
+      {required this.userId, required this.offset, required this.limit})
+      : super._() {
     BuiltValueNullFieldError.checkNotNull(
         userId, r'GGetUserMealsVars', 'userId');
+    BuiltValueNullFieldError.checkNotNull(
+        offset, r'GGetUserMealsVars', 'offset');
+    BuiltValueNullFieldError.checkNotNull(limit, r'GGetUserMealsVars', 'limit');
   }
 
   @override
@@ -574,13 +597,18 @@ class _$GGetUserMealsVars extends GGetUserMealsVars {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is GGetUserMealsVars && userId == other.userId;
+    return other is GGetUserMealsVars &&
+        userId == other.userId &&
+        offset == other.offset &&
+        limit == other.limit;
   }
 
   @override
   int get hashCode {
     var _$hash = 0;
     _$hash = $jc(_$hash, userId.hashCode);
+    _$hash = $jc(_$hash, offset.hashCode);
+    _$hash = $jc(_$hash, limit.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -588,7 +616,9 @@ class _$GGetUserMealsVars extends GGetUserMealsVars {
   @override
   String toString() {
     return (newBuiltValueToStringHelper(r'GGetUserMealsVars')
-          ..add('userId', userId))
+          ..add('userId', userId)
+          ..add('offset', offset)
+          ..add('limit', limit))
         .toString();
   }
 }
@@ -601,12 +631,22 @@ class GGetUserMealsVarsBuilder
   String? get userId => _$this._userId;
   set userId(String? userId) => _$this._userId = userId;
 
+  String? _offset;
+  String? get offset => _$this._offset;
+  set offset(String? offset) => _$this._offset = offset;
+
+  String? _limit;
+  String? get limit => _$this._limit;
+  set limit(String? limit) => _$this._limit = limit;
+
   GGetUserMealsVarsBuilder();
 
   GGetUserMealsVarsBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
       _userId = $v.userId;
+      _offset = $v.offset;
+      _limit = $v.limit;
       _$v = null;
     }
     return this;
@@ -630,7 +670,11 @@ class GGetUserMealsVarsBuilder
     final _$result = _$v ??
         new _$GGetUserMealsVars._(
             userId: BuiltValueNullFieldError.checkNotNull(
-                userId, r'GGetUserMealsVars', 'userId'));
+                userId, r'GGetUserMealsVars', 'userId'),
+            offset: BuiltValueNullFieldError.checkNotNull(
+                offset, r'GGetUserMealsVars', 'offset'),
+            limit: BuiltValueNullFieldError.checkNotNull(
+                limit, r'GGetUserMealsVars', 'limit'));
     replace(_$result);
     return _$result;
   }
