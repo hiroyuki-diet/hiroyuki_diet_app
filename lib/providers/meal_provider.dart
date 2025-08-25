@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hiroyuki_diet_app/graphql/__generated__/queries.data.gql.dart';
 import 'package:hiroyuki_diet_app/graphql/__generated__/queries.req.gql.dart';
+import 'package:hiroyuki_diet_app/graphql/__generated__/mutations.req.gql.dart';
 import 'package:hiroyuki_diet_app/graphql/__generated__/schema.schema.gql.dart';
 import 'package:hiroyuki_diet_app/providers/client_provider.dart';
 
@@ -27,7 +28,10 @@ class MealNotifier extends StateNotifier<MealListState> {
     }
 
     final client = ref.read(ferryClientProvider);
-    final request = GGetUserMealsReq((b) => b..vars.userId = userId);
+    final request = GGetUserMealsReq((b) => b
+      ..vars.userId = userId
+      ..vars.offset = '0'
+      ..vars.limit = '20');
 
     client.request(request).listen((response) {
       if (response.hasErrors) {

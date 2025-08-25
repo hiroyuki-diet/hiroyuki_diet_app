@@ -8,19 +8,37 @@ import 'package:ferry_exec/ferry_exec.dart';
 import 'package:gql_code_builder_serializers/gql_code_builder_serializers.dart'
     show OperationSerializer;
 import 'package:hiroyuki_diet_app/graphql/__generated__/mutations.data.gql.dart'
-    show GCreateExerciseData, GCreateExerciseData_createExercise;
-import 'package:hiroyuki_diet_app/graphql/__generated__/mutations.req.gql.dart'
-    show GCreateExerciseReq;
-import 'package:hiroyuki_diet_app/graphql/__generated__/mutations.var.gql.dart'
-    show GCreateExerciseVars;
-import 'package:hiroyuki_diet_app/graphql/__generated__/queries.data.gql.dart'
     show
+        GCreateExerciseData,
+        GCreateExerciseData_createExercise,
         GCreateMealData,
         GCreateMealData_createMeal,
         GCreateProfileData,
         GCreateProfileData_createProfile,
         GDeleteMealData,
         GDeleteMealData_deleteMeal,
+        GLoginData,
+        GLoginData_login,
+        GSignUpData,
+        GSignUpData_signUp;
+import 'package:hiroyuki_diet_app/graphql/__generated__/mutations.req.gql.dart'
+    show
+        GCreateExerciseReq,
+        GCreateMealReq,
+        GCreateProfileReq,
+        GDeleteMealReq,
+        GLoginReq,
+        GSignUpReq;
+import 'package:hiroyuki_diet_app/graphql/__generated__/mutations.var.gql.dart'
+    show
+        GCreateExerciseVars,
+        GCreateMealVars,
+        GCreateProfileVars,
+        GDeleteMealVars,
+        GLoginVars,
+        GSignUpVars;
+import 'package:hiroyuki_diet_app/graphql/__generated__/queries.data.gql.dart'
+    show
         GFoodPartsData,
         GGetFoodsData,
         GGetFoodsData_foods,
@@ -31,38 +49,24 @@ import 'package:hiroyuki_diet_app/graphql/__generated__/queries.data.gql.dart'
         GGetUserMealsData_user,
         GGetUserMealsData_user_meals,
         GGetUserMealsData_user_meals_foods,
-        GLoginData,
-        GLoginData_login,
         GMealPartsData,
         GMealPartsData_foods,
-        GSignUpData,
-        GSignUpData_signUp,
         GUserProfilePartsData;
 import 'package:hiroyuki_diet_app/graphql/__generated__/queries.req.gql.dart'
     show
-        GCreateMealReq,
-        GCreateProfileReq,
-        GDeleteMealReq,
         GFoodPartsReq,
         GGetFoodsReq,
         GGetUserDataReq,
         GGetUserMealsReq,
-        GLoginReq,
         GMealPartsReq,
-        GSignUpReq,
         GUserProfilePartsReq;
 import 'package:hiroyuki_diet_app/graphql/__generated__/queries.var.gql.dart'
     show
-        GCreateMealVars,
-        GCreateProfileVars,
-        GDeleteMealVars,
         GFoodPartsVars,
         GGetFoodsVars,
         GGetUserDataVars,
         GGetUserMealsVars,
-        GLoginVars,
         GMealPartsVars,
-        GSignUpVars,
         GUserProfilePartsVars;
 import 'package:hiroyuki_diet_app/graphql/__generated__/schema.schema.gql.dart'
     show
