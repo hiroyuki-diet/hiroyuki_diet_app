@@ -37,5 +37,7 @@ flutter:
   assets:
     - assets/hiroyuki_room.PNG
     - assets/hiroyuki_gym.PNG
+    - assets/hiroyuki_dining.PNG
+    - assets/hiroyuki_main.PNG
 
   uses-material-design: true

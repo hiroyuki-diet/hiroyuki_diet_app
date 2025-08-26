@@ -21,6 +21,18 @@ class HomePage extends ConsumerWidget {
             fit: BoxFit.cover,
           ),
         ),
+
+        // ひろゆき画像
+        Positioned(
+          right: -65,
+          top: 0,
+          bottom: 0,
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height * 0.4,
+            child: Image.asset('assets/hiroyuki_main.PNG'),
+          ),
+        ),
+
         // 上の長方形
         Positioned(
           left: 16,
