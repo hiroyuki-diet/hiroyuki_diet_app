@@ -23,39 +23,11 @@ query GetUserData($userId: ID!) {
 query GetFoods {
   foods { ...FoodParts }
 }
-query GetUserMeals($userId: ID!) {
+query GetUserMeals($userId: ID!, $offset: String!, $limit: String!) {
   user(id: $userId) {
-    meals { ...MealParts }
+    meals(offset: $offset, limit: $limit) {
+      ...MealParts
+    }
   }
 }
 
-# ----------------------------------------
-# Mutations
-# ----------------------------------------
-mutation SignUp($input: Auth!) {
-  signUp(input: $input) {
-    userId
-    token
-  }
-}
-mutation Login($input: Auth!) {
-  login(input: $input) {
-    userId
-    token
-  }
-}
-mutation CreateProfile($input: InputProfile!) {
-  createProfile(input: $input) {
-    id
-  }
-}
-mutation CreateMeal($input: InputMeal!) {
-  createMeal(input: $input) {
-    id
-  }
-}
-mutation DeleteMeal($mealId: ID!) {
-  deleteMeal(input: $mealId) {
-    id
-  }
-}

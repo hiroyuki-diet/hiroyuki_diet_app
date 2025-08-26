@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hiroyuki_diet_app/graphql/__generated__/queries.req.gql.dart';
+import 'package:hiroyuki_diet_app/graphql/__generated__/mutations.req.gql.dart';
 import 'package:hiroyuki_diet_app/providers/client_provider.dart';
 
 // 状態を表すクラス

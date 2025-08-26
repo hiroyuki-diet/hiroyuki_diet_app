@@ -8,7 +8,7 @@ class MissionPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('ミッション'),
-        backgroundColor: Colors.green,
+        backgroundColor: const Color.fromARGB(255, 56, 180, 139),
         automaticallyImplyLeading: false,
       ),
       body: const Center(

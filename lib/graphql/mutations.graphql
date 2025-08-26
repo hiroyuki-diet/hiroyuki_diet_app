@@ -1,0 +1,36 @@
+# ----------------------------------------
+# Mutations
+# ----------------------------------------
+mutation SignUp($input: Auth!) {
+  signUp(input: $input) {
+    userId
+    token
+  }
+}
+mutation Login($input: Auth!) {
+  login(input: $input) {
+    userId
+    token
+  }
+}
+mutation CreateProfile($input: InputProfile!) {
+  createProfile(input: $input) {
+    id
+  }
+}
+mutation CreateMeal($input: InputMeal!) {
+  createMeal(input: $input) {
+    id
+  }
+}
+mutation DeleteMeal($mealId: ID!) {
+  deleteMeal(input: $mealId) {
+    id
+  }
+}
+
+mutation CreateExercise($input: InputExercise!) {
+  createExercise(input: $input) {
+    id
+  }
+}

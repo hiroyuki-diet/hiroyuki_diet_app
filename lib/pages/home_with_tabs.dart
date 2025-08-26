@@ -18,48 +18,52 @@ class HomeWithTabs extends ConsumerWidget {
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          backgroundColor: Colors.green,
+          backgroundColor: const Color.fromARGB(255, 56, 180, 139),
           toolbarHeight: 70, // Adjusted height to fit content and TabBar
-          title: Padding(
-            padding: const EdgeInsets.only(top: 10.0, left: 16.0, right: 16.0), // Top and horizontal padding
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    // Level/XP display (Donut + Lv.X text)
-                    Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        SizedBox(
-                          width: 50, // Size of the donut
-                          height: 50,
-                          child: CircularProgressIndicator(
-                            value: 0.7, // Placeholder for XP progress (70%)
-                            strokeWidth: 5, // Thickness of the donut
-                            backgroundColor: Colors.grey[300], // Background of the donut
-                            valueColor: const AlwaysStoppedAnimation<Color>(Colors.yellow), // Progress color
+          title: userData.when(
+            loading: () => const SizedBox(), // ローディング中は何も表示しない
+            error: (err, stack) => const SizedBox(), // エラー時は何も表示しない
+            data: (userData) => Padding(
+              padding: const EdgeInsets.only(top: 10.0, left: 16.0, right: 16.0), // Top and horizontal padding
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      // Level/XP display (Donut + Lv.X text)
+                      Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          SizedBox(
+                            width: 50, // Size of the donut
+                            height: 50,
+                            child: CircularProgressIndicator(
+                              value: 0.7, // Placeholder for XP progress (70%)
+                              strokeWidth: 5, // Thickness of the donut
+                              backgroundColor: Colors.grey[300], // Background of the donut
+                              valueColor: const AlwaysStoppedAnimation<Color>(Colors.yellow), // Progress color
+                            ),
                           ),
-                        ),
-                        Text(
-                          'Lv.${userData?.level ?? '--'}', // Display user level
-                          style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(width: 15), // Space between level and username
-                    // Username
-                    Expanded(
-                      child: Text(
-                        userData?.userName ?? 'ユーザーネーム', // Display username
-                        style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-                        overflow: TextOverflow.ellipsis, // Handle long usernames
+                          Text(
+                            'Lv.${userData?.level ?? '--'}', // Display user level
+                            style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                      const SizedBox(width: 15), // Space between level and username
+                      // Username
+                      Expanded(
+                        child: Text(
+                          userData?.userName ?? 'ユーザーネーム', // Display username
+                          style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                          overflow: TextOverflow.ellipsis, // Handle long usernames
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
           bottom: const PreferredSize(
@@ -73,7 +77,7 @@ class HomeWithTabs extends ConsumerWidget {
               tabs: [
                 Tab(text: '運動量'),
                 Tab(text: 'ホーム'),
-                Tab(text: 'カロリー'),
+                Tab(text: '食事管理'),
               ],
             ),
           ),

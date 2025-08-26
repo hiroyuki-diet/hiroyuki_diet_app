@@ -22,6 +22,8 @@ dependencies:
   gql_link: ^1.0.0+1
   gql_exec: ^1.0.0+1
   flutter_secure_storage: ^9.2.2
+  http: ^1.2.0
+  fl_chart: ^0.68.0
 
 dev_dependencies:
   flutter_test:
@@ -36,5 +38,7 @@ flutter:
   assets:
     - assets/hiroyuki_room.PNG
     - assets/hiroyuki_gym.PNG
+    - assets/hiroyuki_dining.png
+    - assets/hiroyuki_main.PNG
 
   uses-material-design: true

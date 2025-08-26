@@ -4,21 +4,11 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:gql/ast.dart' as _i1;
 
-const MutationSuccessResponse = _i1.ObjectTypeDefinitionNode(
-  name: _i1.NameNode(value: 'MutationSuccessResponse'),
-  directives: [],
-  interfaces: [],
-  fields: [
-    _i1.FieldDefinitionNode(
-      name: _i1.NameNode(value: 'id'),
-      directives: [],
-      args: [],
-      type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'ID'),
-        isNonNull: true,
-      ),
-    )
-  ],
+const auth = _i1.DirectiveDefinitionNode(
+  name: _i1.NameNode(value: 'auth'),
+  args: [],
+  locations: [_i1.DirectiveLocation.fieldDefinition],
+  repeatable: false,
 );
 const FieldEnum = _i1.EnumTypeDefinitionNode(
   name: _i1.NameNode(value: 'FieldEnum'),
@@ -136,6 +126,22 @@ const GenderEnum = _i1.EnumTypeDefinitionNode(
     ),
   ],
 );
+const MutationSuccessResponse = _i1.ObjectTypeDefinitionNode(
+  name: _i1.NameNode(value: 'MutationSuccessResponse'),
+  directives: [],
+  interfaces: [],
+  fields: [
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'id'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'ID'),
+        isNonNull: false,
+      ),
+    )
+  ],
+);
 const Query = _i1.ObjectTypeDefinitionNode(
   name: _i1.NameNode(value: 'Query'),
   directives: [],
@@ -143,7 +149,12 @@ const Query = _i1.ObjectTypeDefinitionNode(
   fields: [
     _i1.FieldDefinitionNode(
       name: _i1.NameNode(value: 'user'),
-      directives: [],
+      directives: [
+        _i1.DirectiveNode(
+          name: _i1.NameNode(value: 'auth'),
+          arguments: [],
+        )
+      ],
       args: [
         _i1.InputValueDefinitionNode(
           name: _i1.NameNode(value: 'id'),
@@ -162,7 +173,12 @@ const Query = _i1.ObjectTypeDefinitionNode(
     ),
     _i1.FieldDefinitionNode(
       name: _i1.NameNode(value: 'foods'),
-      directives: [],
+      directives: [
+        _i1.DirectiveNode(
+          name: _i1.NameNode(value: 'auth'),
+          arguments: [],
+        )
+      ],
       args: [],
       type: _i1.ListTypeNode(
         type: _i1.NamedTypeNode(
@@ -195,12 +211,17 @@ const Mutation = _i1.ObjectTypeDefinitionNode(
       ],
       type: _i1.NamedTypeNode(
         name: _i1.NameNode(value: 'JWTTokenResponse'),
-        isNonNull: true,
+        isNonNull: false,
       ),
     ),
     _i1.FieldDefinitionNode(
       name: _i1.NameNode(value: 'tokenAuth'),
-      directives: [],
+      directives: [
+        _i1.DirectiveNode(
+          name: _i1.NameNode(value: 'auth'),
+          arguments: [],
+        )
+      ],
       args: [
         _i1.InputValueDefinitionNode(
           name: _i1.NameNode(value: 'input'),
@@ -238,7 +259,12 @@ const Mutation = _i1.ObjectTypeDefinitionNode(
     ),
     _i1.FieldDefinitionNode(
       name: _i1.NameNode(value: 'logout'),
-      directives: [],
+      directives: [
+        _i1.DirectiveNode(
+          name: _i1.NameNode(value: 'auth'),
+          arguments: [],
+        )
+      ],
       args: [
         _i1.InputValueDefinitionNode(
           name: _i1.NameNode(value: 'input'),
@@ -252,12 +278,17 @@ const Mutation = _i1.ObjectTypeDefinitionNode(
       ],
       type: _i1.NamedTypeNode(
         name: _i1.NameNode(value: 'MutationSuccessResponse'),
-        isNonNull: true,
+        isNonNull: false,
       ),
     ),
     _i1.FieldDefinitionNode(
       name: _i1.NameNode(value: 'createExercise'),
-      directives: [],
+      directives: [
+        _i1.DirectiveNode(
+          name: _i1.NameNode(value: 'auth'),
+          arguments: [],
+        )
+      ],
       args: [
         _i1.InputValueDefinitionNode(
           name: _i1.NameNode(value: 'input'),
@@ -271,12 +302,17 @@ const Mutation = _i1.ObjectTypeDefinitionNode(
       ],
       type: _i1.NamedTypeNode(
         name: _i1.NameNode(value: 'MutationSuccessResponse'),
-        isNonNull: true,
+        isNonNull: false,
       ),
     ),
     _i1.FieldDefinitionNode(
       name: _i1.NameNode(value: 'editExercise'),
-      directives: [],
+      directives: [
+        _i1.DirectiveNode(
+          name: _i1.NameNode(value: 'auth'),
+          arguments: [],
+        )
+      ],
       args: [
         _i1.InputValueDefinitionNode(
           name: _i1.NameNode(value: 'input'),
@@ -290,12 +326,17 @@ const Mutation = _i1.ObjectTypeDefinitionNode(
       ],
       type: _i1.NamedTypeNode(
         name: _i1.NameNode(value: 'MutationSuccessResponse'),
-        isNonNull: true,
+        isNonNull: false,
       ),
     ),
     _i1.FieldDefinitionNode(
       name: _i1.NameNode(value: 'receiptAchievement'),
-      directives: [],
+      directives: [
+        _i1.DirectiveNode(
+          name: _i1.NameNode(value: 'auth'),
+          arguments: [],
+        )
+      ],
       args: [
         _i1.InputValueDefinitionNode(
           name: _i1.NameNode(value: 'input'),
@@ -309,12 +350,17 @@ const Mutation = _i1.ObjectTypeDefinitionNode(
       ],
       type: _i1.NamedTypeNode(
         name: _i1.NameNode(value: 'MutationSuccessResponse'),
-        isNonNull: true,
+        isNonNull: false,
       ),
     ),
     _i1.FieldDefinitionNode(
       name: _i1.NameNode(value: 'createProfile'),
-      directives: [],
+      directives: [
+        _i1.DirectiveNode(
+          name: _i1.NameNode(value: 'auth'),
+          arguments: [],
+        )
+      ],
       args: [
         _i1.InputValueDefinitionNode(
           name: _i1.NameNode(value: 'input'),
@@ -328,12 +374,17 @@ const Mutation = _i1.ObjectTypeDefinitionNode(
       ],
       type: _i1.NamedTypeNode(
         name: _i1.NameNode(value: 'MutationSuccessResponse'),
-        isNonNull: true,
+        isNonNull: false,
       ),
     ),
     _i1.FieldDefinitionNode(
       name: _i1.NameNode(value: 'editProfile'),
-      directives: [],
+      directives: [
+        _i1.DirectiveNode(
+          name: _i1.NameNode(value: 'auth'),
+          arguments: [],
+        )
+      ],
       args: [
         _i1.InputValueDefinitionNode(
           name: _i1.NameNode(value: 'input'),
@@ -347,12 +398,17 @@ const Mutation = _i1.ObjectTypeDefinitionNode(
       ],
       type: _i1.NamedTypeNode(
         name: _i1.NameNode(value: 'MutationSuccessResponse'),
-        isNonNull: true,
+        isNonNull: false,
       ),
     ),
     _i1.FieldDefinitionNode(
       name: _i1.NameNode(value: 'createMeal'),
-      directives: [],
+      directives: [
+        _i1.DirectiveNode(
+          name: _i1.NameNode(value: 'auth'),
+          arguments: [],
+        )
+      ],
       args: [
         _i1.InputValueDefinitionNode(
           name: _i1.NameNode(value: 'input'),
@@ -366,12 +422,17 @@ const Mutation = _i1.ObjectTypeDefinitionNode(
       ],
       type: _i1.NamedTypeNode(
         name: _i1.NameNode(value: 'MutationSuccessResponse'),
-        isNonNull: true,
+        isNonNull: false,
       ),
     ),
     _i1.FieldDefinitionNode(
       name: _i1.NameNode(value: 'editMeal'),
-      directives: [],
+      directives: [
+        _i1.DirectiveNode(
+          name: _i1.NameNode(value: 'auth'),
+          arguments: [],
+        )
+      ],
       args: [
         _i1.InputValueDefinitionNode(
           name: _i1.NameNode(value: 'input'),
@@ -385,12 +446,17 @@ const Mutation = _i1.ObjectTypeDefinitionNode(
       ],
       type: _i1.NamedTypeNode(
         name: _i1.NameNode(value: 'MutationSuccessResponse'),
-        isNonNull: true,
+        isNonNull: false,
       ),
     ),
     _i1.FieldDefinitionNode(
       name: _i1.NameNode(value: 'deleteMeal'),
-      directives: [],
+      directives: [
+        _i1.DirectiveNode(
+          name: _i1.NameNode(value: 'auth'),
+          arguments: [],
+        )
+      ],
       args: [
         _i1.InputValueDefinitionNode(
           name: _i1.NameNode(value: 'input'),
@@ -404,12 +470,17 @@ const Mutation = _i1.ObjectTypeDefinitionNode(
       ],
       type: _i1.NamedTypeNode(
         name: _i1.NameNode(value: 'MutationSuccessResponse'),
-        isNonNull: true,
+        isNonNull: false,
       ),
     ),
     _i1.FieldDefinitionNode(
       name: _i1.NameNode(value: 'postSkin'),
-      directives: [],
+      directives: [
+        _i1.DirectiveNode(
+          name: _i1.NameNode(value: 'auth'),
+          arguments: [],
+        )
+      ],
       args: [
         _i1.InputValueDefinitionNode(
           name: _i1.NameNode(value: 'input'),
@@ -423,12 +494,17 @@ const Mutation = _i1.ObjectTypeDefinitionNode(
       ],
       type: _i1.NamedTypeNode(
         name: _i1.NameNode(value: 'MutationSuccessResponse'),
-        isNonNull: true,
+        isNonNull: false,
       ),
     ),
     _i1.FieldDefinitionNode(
       name: _i1.NameNode(value: 'useItem'),
-      directives: [],
+      directives: [
+        _i1.DirectiveNode(
+          name: _i1.NameNode(value: 'auth'),
+          arguments: [],
+        )
+      ],
       args: [
         _i1.InputValueDefinitionNode(
           name: _i1.NameNode(value: 'input'),
@@ -442,7 +518,7 @@ const Mutation = _i1.ObjectTypeDefinitionNode(
       ],
       type: _i1.NamedTypeNode(
         name: _i1.NameNode(value: 'MutationSuccessResponse'),
-        isNonNull: true,
+        isNonNull: false,
       ),
     ),
   ],
@@ -834,7 +910,26 @@ const User = _i1.ObjectTypeDefinitionNode(
     _i1.FieldDefinitionNode(
       name: _i1.NameNode(value: 'meals'),
       directives: [],
-      args: [],
+      args: [
+        _i1.InputValueDefinitionNode(
+          name: _i1.NameNode(value: 'offset'),
+          directives: [],
+          type: _i1.NamedTypeNode(
+            name: _i1.NameNode(value: 'String'),
+            isNonNull: true,
+          ),
+          defaultValue: null,
+        ),
+        _i1.InputValueDefinitionNode(
+          name: _i1.NameNode(value: 'limit'),
+          directives: [],
+          type: _i1.NamedTypeNode(
+            name: _i1.NameNode(value: 'String'),
+            isNonNull: true,
+          ),
+          defaultValue: null,
+        ),
+      ],
       type: _i1.ListTypeNode(
         type: _i1.NamedTypeNode(
           name: _i1.NameNode(value: 'Meal'),
@@ -1216,7 +1311,7 @@ const SignUpToken = _i1.ObjectTypeDefinitionNode(
   interfaces: [],
   fields: [
     _i1.FieldDefinitionNode(
-      name: _i1.NameNode(value: 'userId'),
+      name: _i1.NameNode(value: 'id'),
       directives: [],
       args: [],
       type: _i1.NamedTypeNode(
@@ -1229,7 +1324,7 @@ const SignUpToken = _i1.ObjectTypeDefinitionNode(
       directives: [],
       args: [],
       type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'String'),
+        name: _i1.NameNode(value: 'Int'),
         isNonNull: true,
       ),
     ),
@@ -1453,11 +1548,12 @@ const JWTTokenResponse = _i1.ObjectTypeDefinitionNode(
   ],
 );
 const document = _i1.DocumentNode(definitions: [
-  MutationSuccessResponse,
+  auth,
   FieldEnum,
   SkinPartEnum,
   MealTypeEnum,
   GenderEnum,
+  MutationSuccessResponse,
   Query,
   Mutation,
   InputUseItem,
