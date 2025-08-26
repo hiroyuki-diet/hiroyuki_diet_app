@@ -13,7 +13,7 @@ class ProfilePage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('プロフィール'),
-        backgroundColor: Colors.green,
+        backgroundColor: const Color.fromARGB(255, 56, 180, 139),
         automaticallyImplyLeading: false,
       ),
       body: userDataAsync.when(

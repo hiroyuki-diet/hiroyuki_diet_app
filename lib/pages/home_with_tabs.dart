@@ -18,7 +18,7 @@ class HomeWithTabs extends ConsumerWidget {
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          backgroundColor: Colors.green,
+          backgroundColor: const Color.fromARGB(255, 56, 180, 139),
           toolbarHeight: 70, // Adjusted height to fit content and TabBar
           title: userData.when(
             loading: () => const SizedBox(), // ローディング中は何も表示しない

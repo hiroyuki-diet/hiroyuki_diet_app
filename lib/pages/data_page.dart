@@ -53,7 +53,7 @@ class DataPage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('データ'),
-        backgroundColor: Colors.green,
+        backgroundColor: const Color.fromARGB(255, 56, 180, 139),
         automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
