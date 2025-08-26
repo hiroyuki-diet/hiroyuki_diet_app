@@ -22,8 +22,8 @@ class _MomentumPageState extends ConsumerState<MomentumPage> {
   }
 
   void _startStopTimer() {
-    final userData = ref.read(userDataProvider);
-    if (userData == null) return; // 目標時間がなければ開始しない
+    final userData = ref.read(userDataProvider).value;
+    if (userData == null) return; // データがなければ何もしない
 
     if (_isTimerRunning) {
       // タイマーが実行中の場合：停止する
@@ -69,13 +69,7 @@ class _MomentumPageState extends ConsumerState<MomentumPage> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final circleDiameter = screenWidth * 0.8;
-
-    final userData = ref.watch(userDataProvider);
-    // userDataがnullの場合は目標時間を0に設定
-    final targetTime = userData?.targetDailyExerciseTime ?? 0;
-
-    // タイマーが動いていないときは目標時間を表示し、動いているときは残り時間を表示
-    final displaySeconds = _remainingSeconds ?? (targetTime * 60);
+    final userDataAsync = ref.watch(userDataProvider);
 
     return Scaffold(
       body: Container(
@@ -86,60 +80,73 @@ class _MomentumPageState extends ConsumerState<MomentumPage> {
           ),
         ),
         child: Center(
-          child: Transform.translate(
-            offset: const Offset(0, -80),
-            child: Container(
-              width: circleDiameter,
-              height: circleDiameter,
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.9),
-                shape: BoxShape.circle,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // 目標時間
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.blue, width: 2),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Text(
-                      '目標 ${targetTime} min',
-                      style: const TextStyle(
-                          color: Colors.blue, fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
+          child: userDataAsync.when(
+            loading: () => const CircularProgressIndicator(),
+            error: (err, stack) => Text('Error: $err'),
+            data: (userData) {
+              if (userData == null) {
+                return const Text('目標時間を設定してください。');
+              }
+
+              final targetTime = userData.targetDailyExerciseTime;
+              final displaySeconds = _remainingSeconds ?? (targetTime * 60);
+
+              return Transform.translate(
+                offset: const Offset(0, -80),
+                child: Container(
+                  width: circleDiameter,
+                  height: circleDiameter,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.9),
+                    shape: BoxShape.circle,
                   ),
-                  const SizedBox(height: 20),
-                  // タイマー
-                  Text(
-                    _formatDuration(displaySeconds),
-                    style: const TextStyle(
-                      color: Colors.blue,
-                      fontSize: 60,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  // START/STOP ボタン
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // 目標時間
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.blue, width: 2),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          '目標 ${targetTime} min',
+                          style: const TextStyle(
+                              color: Colors.blue, fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
                       ),
-                      minimumSize: const Size(180, 50), // 幅180, 高さ50に固定
-                    ),
-                    onPressed: userData == null ? null : _startStopTimer, // userDataがない場合は無効
-                    child: Text(
-                      _isTimerRunning ? 'STOP' : 'START',
-                      style: const TextStyle(color: Colors.white, fontSize: 20),
-                    ),
+                      const SizedBox(height: 20),
+                      // タイマー
+                      Text(
+                        _formatDuration(displaySeconds),
+                        style: const TextStyle(
+                          color: Colors.blue,
+                          fontSize: 60,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      // START/STOP ボタン
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          minimumSize: const Size(180, 50), // 幅180, 高さ50に固定
+                        ),
+                        onPressed: _startStopTimer,
+                        child: Text(
+                          _isTimerRunning ? 'STOP' : 'START',
+                          style: const TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
+                ),
+              );
+            },
           ),
         ),
       ),

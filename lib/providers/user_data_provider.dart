@@ -12,6 +12,9 @@ class UserData {
   final double targetWeight;
   final int level;
   final int targetDailyExerciseTime;
+  final double height;
+  final int targetDailyCarorie;
+  final int age;
 
   UserData({
     required this.userName,
@@ -19,64 +22,71 @@ class UserData {
     required this.targetWeight,
     required this.level,
     required this.targetDailyExerciseTime,
+    required this.height,
+    required this.targetDailyCarorie,
+    required this.age,
   });
 
   factory UserData.fromGetUserDataResponse(GGetUserDataData_user user) {
+    // The profile is now nullable, so we need to handle the case where it's null.
+    // This factory should only be called after a null check.
     return UserData(
       userName: user.profile.userName,
       weight: user.profile.weight.toDouble(),
       targetWeight: user.profile.targetWeight.toDouble(),
       level: user.level,
       targetDailyExerciseTime: user.profile.targetDailyExerciseTime,
+      height: user.profile.height.toDouble(),
+      targetDailyCarorie: user.profile.targetDailyCarorie,
+      age: user.profile.age,
     );
   }
 }
 
 // ユーザーデータプロバイダー
-final userDataProvider = StateNotifierProvider<UserDataNotifier, UserData?>((ref) {
-  final client = ref.watch(ferryClientProvider);
-  return UserDataNotifier(client);
+final userDataProvider = StateNotifierProvider<UserDataNotifier, AsyncValue<UserData?>>((ref) {
+  return UserDataNotifier(ref);
 });
 
-class UserDataNotifier extends StateNotifier<UserData?> {
-  final Client _client;
+class UserDataNotifier extends StateNotifier<AsyncValue<UserData?>> {
+  final Ref ref;
   final _storage = const FlutterSecureStorage();
 
-  UserDataNotifier(this._client) : super(null);
+  UserDataNotifier(this.ref) : super(const AsyncValue.loading()) {
+    fetchUserData();
+  }
 
   Future<void> fetchUserData() async {
+    state = const AsyncValue.loading();
     final userId = await _storage.read(key: 'user_id');
     if (userId == null) {
-      print('User ID not found in storage.');
-      state = null;
+      state = AsyncValue.error('User ID not found', StackTrace.current);
       return;
     }
 
-    print('Fetching user data for userId: $userId');
-
+    final client = ref.read(ferryClientProvider);
     final request = GGetUserDataReq((b) => b..vars.userId = userId);
 
-    _client.request(request).listen((response) {
+    client.request(request).listen((response) {
       if (response.hasErrors) {
-        print('--- ERROR ---');
-        print('GraphQL Errors: ${response.graphqlErrors}');
-        print('Link Exception: ${response.linkException}');
-        print('-------------');
-        state = null;
+        final error = response.graphqlErrors ?? response.linkException ?? 'Unknown error';
+        state = AsyncValue.error(error, StackTrace.current);
       } else if (response.data?.user != null) {
-        print('GraphQL Data: ${response.data!.toJson()}');
-        state = UserData.fromGetUserDataResponse(response.data!.user);
+        final user = response.data!.user;
+        if (user.profile == null) {
+          state = const AsyncValue.data(null);
+        } else {
+          state = AsyncValue.data(UserData.fromGetUserDataResponse(user));
+        }
       } else {
-        print('No user data found.');
-        state = null;
+        state = const AsyncValue.data(null);
       }
-    }).onError((error) {
-      print('Stream Error: $error');
-      state = null;
+    }).onError((error, stackTrace) {
+      state = AsyncValue.error(error, stackTrace);
     });
   }
 
   void clearUserData() {
-    state = null;
+    state = const AsyncValue.data(null);
   }
 }
