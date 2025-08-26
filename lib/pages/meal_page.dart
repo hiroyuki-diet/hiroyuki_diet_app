@@ -12,49 +12,55 @@ class MealPage extends ConsumerWidget {
     final mealsAsyncValue = ref.watch(mealProvider);
 
     return Scaffold(
-      backgroundColor: Colors.green[400],
-      body: mealsAsyncValue.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (err, stack) => Center(child: Text('Error: $err')),
-        data: (meals) {
-          final totalCalorie = meals.fold<double>(
-            0,
-            (sum, meal) => sum + meal.totalCalorie,
-          );
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/hiroyuki_dining.png'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: mealsAsyncValue.when(
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (err, stack) => Center(child: Text('Error: $err')),
+          data: (meals) {
+            final totalCalorie = meals.fold<double>(
+              0,
+              (sum, meal) => sum + meal.totalCalorie,
+            );
 
-          return SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 16), // 上部の余白
-                // Header
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 32),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        '総摂取カロリー ${totalCalorie.toStringAsFixed(0)} kcal',
-                        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            return SingleChildScrollView(
+              child: SafeArea(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 16),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 32),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            '総摂取カロリー ${totalCalorie.toStringAsFixed(0)} kcal',
+                            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.add_circle, color: Colors.white, size: 32),
+                            onPressed: () => _showAddMealDialog(context, ref),
+                          ),
+                        ],
                       ),
-                      IconButton(
-                        icon: const Icon(Icons.add_circle, color: Colors.white, size: 32),
-                        onPressed: () => _showAddMealDialog(context, ref),
-                      ),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(height: 24),
+                    _buildMealSection(context, ref, '朝ごはん', GMealTypeEnum.breakfast, meals),
+                    _buildMealSection(context, ref, '昼ごはん', GMealTypeEnum.lunch, meals),
+                    _buildMealSection(context, ref, '夜ごはん', GMealTypeEnum.dinner, meals),
+                    _buildMealSection(context, ref, '間食', GMealTypeEnum.snacking, meals),
+                  ],
                 ),
-                const SizedBox(height: 24),
-
-                // Meal sections
-                _buildMealSection(context, ref, '朝ごはん', GMealTypeEnum.breakfast, meals),
-                _buildMealSection(context, ref, '昼ごはん', GMealTypeEnum.lunch, meals),
-                _buildMealSection(context, ref, '夜ごはん', GMealTypeEnum.dinner, meals),
-                _buildMealSection(context, ref, '間食', GMealTypeEnum.snacking, meals),
-              ],
-            ),
-          );
-        },
+              ),
+            );
+          },
+        ),
       ),
     );
   }
@@ -65,7 +71,7 @@ class MealPage extends ConsumerWidget {
       builder: (BuildContext context) {
         return AlertDialog(
           backgroundColor: const Color.fromARGB(255, 56, 180, 139),
-          title: const Text('食事の種類を選択'),
+          title: const Text('食事の種類を選択', style: TextStyle(color: Colors.white)),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
@@ -85,7 +91,7 @@ class MealPage extends ConsumerWidget {
     return GestureDetector(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 12.0),
-        child: Text(title, style: const TextStyle(fontSize: 18)),
+        child: Text(title, style: const TextStyle(fontSize: 18, color: Colors.white)),
       ),
       onTap: () async {
         final mealNotifier = ref.read(mealProvider.notifier);
@@ -124,16 +130,15 @@ class MealPage extends ConsumerWidget {
         children: [
           Row(
             children: [
-              Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
               const Spacer(),
               Text(
                 '${totalCalorieForType.toStringAsFixed(0)} kcal',
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
               ),
               IconButton(
                 icon: const Icon(Icons.edit, size: 20, color: Colors.white),
                 onPressed: () {
-                  // このタイプの食事の最初のものを削除する
                   final mealIdToDelete = mealsForType.first.id;
                   ref.read(mealProvider.notifier).deleteMeal(mealIdToDelete);
                 },
@@ -152,8 +157,8 @@ class MealPage extends ConsumerWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(food.name, style: const TextStyle(fontSize: 16)),
-                  Text('${food.estimateCalorie.toStringAsFixed(0)} kcal', style: const TextStyle(fontSize: 16)),
+                  Text(food.name, style: const TextStyle(fontSize: 16, color: Colors.white)),
+                  Text('${food.estimateCalorie.toStringAsFixed(0)} kcal', style: const TextStyle(fontSize: 16, color: Colors.white)),
                 ],
               ),
             );
